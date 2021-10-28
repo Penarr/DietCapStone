@@ -18,7 +18,7 @@ namespace SmartDietCapstone.Areas.Identity
                
                 services.AddDbContext<SmartDietCapstoneContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("DefaultConnection")));
+                        context.Configuration.GetConnectionString("SmartDietCapstoneContextConnection")));
 
                 services.AddIdentity<SmartDietCapstoneUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<SmartDietCapstoneContext>().AddDefaultUI().AddDefaultTokenProviders();

@@ -23,5 +23,7 @@ namespace SmartDietCapstone
         public double protein { get; set; }
         public double carbs { get; set; }
         public double fat { get; set; }
+
+        public string category { get; set; }
     }
 }

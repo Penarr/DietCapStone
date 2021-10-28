@@ -73,6 +73,7 @@ namespace SmartDietCapstone
                 endpoints.MapRazorPages();
             });
 
+            
 
         }
     }

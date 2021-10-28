@@ -139,6 +139,8 @@ namespace SmartDietCapstone
                     
                     food.fdcId = (int)obj["foods"][randIndex]["fdcId"];
                     food.name = obj["foods"][randIndex]["description"].ToString();
+
+                    food.category = obj["foods"][randIndex]["foodCategory"].ToString();
                     var foodNutrients = obj["foods"][randIndex]["foodNutrients"];
                     double calsPerGram = 0;
                     double proteinPerGram = 0;

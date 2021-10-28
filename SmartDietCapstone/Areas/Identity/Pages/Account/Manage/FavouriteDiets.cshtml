@@ -33,24 +33,25 @@
             <tbody>
                 @for (int i = 0; i < Model.favouriteDiets.Count; i++)
                 {
-                    <tr>
-                        <td>@Model.dietCalories[i] calories</td>
-                        <td>@Model.dietProtein[i] grams</td>
-                        <td>@Model.dietCarbs[i] grams</td>
-                        <td>@Model.dietFat[i] grams</td>
-                        <td>
-                            <form method="post" asp-page-handler="DeleteDiet">
-                                <input type="hidden" value="@Model.dietIds[i]" name="dietId" />
-                                <button type="submit" value="Submit" class="btn btn-danger"  >Delete</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form method="post" >
-                                <input type="hidden" value="@i" name="dietIndex" />
-                                <button type="submit" value="Submit" class="btn btn-info"asp-page-handler="ViewFavouriteDiet" >View Diet</button>
-                            </form>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>@Model.dietCalories[i] calories</td>
+                    <td>@Model.dietProtein[i] grams</td>
+                    <td>@Model.dietCarbs[i] grams</td>
+                    <td>@Model.dietFat[i] grams</td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" value="@i" name="dietIndex" />
+                            <button type="submit" value="Submit" class="btn btn-info" asp-page-handler="ViewFavouriteDiet">View</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" asp-page-handler="DeleteDiet">
+                            <input type="hidden" value="@Model.dietIds[i]" name="dietId" />
+                            <button type="submit" value="Submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+
+                </tr>
                 }
 
             </tbody>

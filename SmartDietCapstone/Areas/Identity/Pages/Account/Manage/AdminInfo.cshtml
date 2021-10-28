@@ -2,4 +2,153 @@
 @model SmartDietCapstone.Areas.Identity.Pages.Account.Manage.AdminInfoModel
 @{
     <h1>Admin Info</h1>
+    <div class="row">
+        <div class="col-lg">
+            @if (Model.usersCalories.Count > 0)
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Calories</th>
+                            <th>Protein</th>
+                            <th>Fat</th>
+                            <th>Carbs</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <th>Mean Recommended Amount</th>
+                            <td>@Math.Round(Model.usersCalories.Average(), 2) calories</td>
+                            <td>@Math.Round(Model.usersProtein.Average(), 2) grams</td>
+                            <td>@Math.Round(Model.usersCarbs.Average(), 2) grams</td>
+                            <td>@Math.Round(Model.usersFat.Average(), 2) grams</td>
+                        </tr>
+                        <tr>
+                            <th>Highest Recommended Amounts</th>
+                            <td>@Model.usersCalories.Max() calories</td>
+                            <td>@Model.usersProtein.Max() grams</td>
+                            <td>@Model.usersCarbs.Max() grams</td>
+                            <td>@Model.usersFat.Max() grams</td>
+                        </tr>
+                        <tr>
+                            <th>Lowest Recommended Amount</th>
+                            <td>@Model.usersCalories.Min() calories</td>
+                            <td>@Model.usersProtein.Min() grams</td>
+                            <td>@Model.usersCarbs.Min() grams</td>
+                            <td>@Model.usersFat.Min() grams</td>
+                        </tr>
+                        <tr>
+                            <th>Mean Saved Amount</th>
+                            <td>@Math.Round(Model.calsPerMeal.Average(),2) calories</td>
+                            
+                            <td>@Math.Round(Model.proteinPerMeal.Average(), 2) grams</td>
+                            <td>@Math.Round(Model.carbsPerMeal.Average(), 2) grams</td>
+                            <td>@Math.Round(Model.fatPerMeal.Average(), 2) grams</td>
+                        </tr>
+                        <tr>
+                            <th>Highest Saved Amount</th>
+                            <td>@Model.calsPerMeal.Max() calories</td>
+                            <td>@Model.proteinPerMeal.Max() grams</td>
+                            <td>@Model.carbsPerMeal.Max() grams</td>
+                            <td>@Model.fatPerMeal.Max() grams</td>
+                        </tr>
+                        <tr>
+                            <th>Lowest Saved Amount</th>
+                            <td>@Model.calsPerMeal.Min() calories</td>
+                            <td>@Model.proteinPerMeal.Min() grams</td>
+                            <td>@Model.carbsPerMeal.Min() grams</td>
+                            <td>@Model.fatPerMeal.Min() grams</td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <text><h5>No user information to show</h5></text>
+            }
+
+        </div>
+
+        <div class="col-lg">
+            @if (Model.linkedCategoryCount.Length > 0)
+            {
+                <canvas id="categoryChart" height="200"></canvas>
+            }
+            else
+            {
+                <text><h5>No information to show. No diets have been saved yet</h5></text>
+            }
+
+        </div>
+    </div>
+    
+
+}
+
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js" integrity="sha512-GMGzUEevhWh8Tc/njS0bDpwgxdCJLQBWG3Z2Ct+JGOpVnEmjvNx6ts4v6A2XJf1HOrtOsfhv3hBKpK9kE5z8AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $(document).ready(function () {
+
+        var categoryLabels = @Json.Serialize(Model.categoryLabels);
+    var categoryCount =@Json.Serialize(Model.linkedCategoryCount);
+
+
+     const canvas = $("#categoryChart");
+    const chart = new Chart(canvas, {
+        type: 'bar',
+        data: {
+            labels: categoryLabels,
+            datasets: [{
+
+                
+                data: categoryCount,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderColor: [
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+                
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            
+            tooltips: {
+                callbacks: {
+                    label: function (item) {
+                        return item.yLabel;
+                    }
+                }
+            }
+        }
+    });
+    });
+
+    </script>
 }

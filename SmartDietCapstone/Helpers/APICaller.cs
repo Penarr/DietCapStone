@@ -51,7 +51,7 @@ namespace SmartDietCapstone.Helpers
                 food.name = jFoodList["foods"][i]["description"].ToString();
                 food.fdcId = (int)jFoodList["foods"][i]["fdcId"];
                 food.servingSize = 100;
-
+                food.category = jFoodList["foods"][i]["foodCategory"].ToString();
                 var foodNutrients = jFoodList["foods"][i]["foodNutrients"];
                 for (int j = 0; j < foodNutrients.Count(); j++)
                 {

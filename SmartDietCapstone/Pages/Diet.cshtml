@@ -3,7 +3,7 @@
 @using Models
 
 
-<div class="text-center">
+<div class="text-center container">
 
     <h1>Diet</h1>
     @if (Model._diet == null || Model.recommendedCalories == 0)
@@ -15,23 +15,58 @@
     }
     else
     {
-        <h3>User Details</h3>
-        <div class="row justify-content-between">
-            <div class="col-md-6">
-                <p>
-                    <strong>Recommended Daily Caloric Intake:</strong>
 
-                    @Model.recommendedCalories calories
-                </p>
+        <div class="row">
+            <div class="col-md">
+                <h3>User Nutrient Info</h3>
+                <table class="table">
+                    <tr>
+                        <th>Recommended caloric intake</th>
+                        <td>@Model.recommendedCalories calories</td>
+                    </tr>
+                    <tr>
+                        <th>Recommended protein intake</th>
+                        <td>@Model.recommendedProtein grams</td>
+                    </tr>
+                    <tr>
+                        <th>Recommended carb intake</th>
+                        <td>@Model.recommendedCarbs grams</td>
+                    </tr>
+                    <tr>
+                        <th>Recommended fat intake</th>
+                        <td>@Model.recommendedFat grams</td>
+                    </tr>
+                </table>
+
             </div>
+            <div class="col-md">
+                <h3>Diet Nutrient Info</h3>
+                <table class="table">
+                    <tr>
+                        <th>Caloric intake</th>
+                        <td>@Model.dietCalories</td>
+                    </tr>
+                    <tr>
+                        <th>Protein Intake</th>
+                        <td>@Model.dietProtein</td>
+                    </tr>
+                    <tr>
+                        <th>Carb Intake</th>
+                        <td>@Model.dietCarbs</td>
+                    </tr>
+                    <tr>
+                        <th>Fat Intake</th>
+                        <td>@Model.dietFat</td>
+                    </tr>
 
-
-            <div class="col-md-6">
-                <p><strong>Total Calories of Generated Meal Plan:</strong> @Model.dietCalories calories</p>
+                </table>
             </div>
         </div>
 
-        <h3>Meal Recommendations</h3>
+
+
+
+
         @for (int i = 0; i < Model._diet.Count; i++)
         {
             <div class="container-md">
@@ -40,16 +75,38 @@
                     @foreach (Food food in Model._diet[i].foods)
                     {
                         <div class="col-md-6">
-                            <h5>@food.name</h5>
+                            <p style="font-size: 20px;"><strong>@food.name</strong></p>
                         </div>
                         <div class="col-md-2">
                             <p>@food.servingSize grams</p>
                         </div>
                     }
                 </div>
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <table class="table table-responsive table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>Calories</th>
+                                    <th>Protein</th>
+                                    <th>Carbs</th>
+                                    <th>Fat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@Model._diet[i].totalCals calories</td>
+                                    <td>@Model._diet[i].totalProtein grams</td>
+                                    <td>@Model._diet[i].totalCarbs grams</td>
+                                    <td>@Model._diet[i].totalFat grams</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
 
 
-                <p><strong>Calories:</strong> &nbsp;&nbsp;@Model._diet[i].totalCals</p>
+                </div>
 
                 <div class="row justify-content-center">
                     <div class="col">
@@ -70,11 +127,10 @@
                 <br />
             </div>
 
-            <br /><br />
         }
 
         <form method="post" asp-page-handler="SaveDiet">
-            <input type="hidden" value="@Json." name="jsonDiet"/>
+            <input type="hidden" value="@Json." name="jsonDiet" />
             <button type="submit" class="btn btn-primary" value="Submit">Save Diet</button>
         </form>
 

@@ -25,6 +25,12 @@ namespace SmartDietCapstone.Pages
         public FoodCalculator foodCalculator;
         public double dietCalories;
         public double recommendedCalories;
+        public double dietProtein;
+        public double recommendedProtein;
+        public double dietCarbs;
+        public double recommendedCarbs;
+        public double dietFat;
+        public double recommendedFat;
         private readonly UserManager<SmartDietCapstoneUser> _userManager;
         
         public DietModel(UserManager<SmartDietCapstoneUser> userManager)
@@ -40,18 +46,24 @@ namespace SmartDietCapstone.Pages
         public async Task OnGet()
         {
             await SetDietAndCalculator();
-            dietCalories = 0;
+            CalculateDietMacros();
+
+        }
+
+        internal void CalculateDietMacros()
+        {
+            
             if (_diet != null)
             {
                 foreach (Meal meal in _diet)
                 {
-                    foreach (Food food in meal.foods)
-                    {
-                        dietCalories += food.cals;
-                    }
+                    dietCalories += meal.totalCals;
+                    dietProtein += meal.totalProtein;
+                    dietCarbs += meal.totalCarbs;
+                    dietFat += meal.totalFat;
+
                 }
             }
-
         }
         /// <summary>
         /// Sets diet and calculator from cookies.
@@ -90,7 +102,13 @@ namespace SmartDietCapstone.Pages
             {
                 var user = await _userManager.GetUserAsync(User);
                 if(user.UserCalories > 0)
+                {
                     recommendedCalories = user.UserCalories;
+                    recommendedProtein = user.UserProtein;
+                    recommendedCarbs = user.UserCarbs;
+                    recommendedFat = user.UserFat;
+                }
+                    
             }
                
 
@@ -134,7 +152,7 @@ namespace SmartDietCapstone.Pages
                 return new RedirectToPageResult("EditMeal");
 
             }
-
+            CalculateDietMacros();
             return new PageResult();
         }
         /// <summary>
@@ -154,7 +172,7 @@ namespace SmartDietCapstone.Pages
 
             }
 
-
+            CalculateDietMacros();
             return new PageResult();
         }
 
@@ -176,7 +194,7 @@ namespace SmartDietCapstone.Pages
 
 
             }
-
+            CalculateDietMacros();
         }
     }
 }

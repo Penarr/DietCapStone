@@ -13,7 +13,7 @@ else
     <h2>Meal</h2>
     <div class="row">
         <div class="col-xl-6">
-            <table class="table">
+            <table class="table table-responsive-sm">
                 <thead>
                     <tr>
                         <th>
@@ -74,14 +74,19 @@ else
         <div class="col-xl-6">
             <p><strong>Data shown is per 100g</strong></p>
             <div class="row">
-                <div class="col-md-8">
+                <div class="input-group">
                     <input type="text" id="searchBar" class="form-control" />
+                    <div class="input-group-append">
+                        <button type="button" id="searchButton" class="btn btn-success">Search</button>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <button type="button" id="searchButton" class="btn btn-success">Search</button>
-                </div>
+                    
+                
+                
+                    
+               
             </div>
-            <table class="table overflow-auto">
+            <table class="table overflow-auto table-responsive-sm" height="400">
                 <thead>
                     <tr>
                         <th>
@@ -127,7 +132,7 @@ else
                     </button>
                 </div>
                 <div class="modal-body">
-                    <table id="editFoodTable" class="table">
+                    <table id="editFoodTable" class="table table-responsive-sm">
 
                         <thead>
                             <tr>
@@ -214,7 +219,7 @@ else
                 $("searchBody").html(""); // CLEARS TABLE OF CURRENT RESULTS
                 for (i = 0; i < data.length; i++) {
                     food = data[i];
-                    var addFoodButton = $("<button>", { "class": "btn btn-success add-food-button", "type": "button", "text": "Add Food", "data-toggle": "modal", "data-target": "#foodModal" }).click(function () {
+                    var addFoodButton = $("<button>", { "class": "btn btn-primary add-food-button", "type": "button", "text": "Add", "data-toggle": "modal", "data-target": "#foodModal" }).click(function () {
 
                         foods.push(food);
                         repopulateCurrentMeal();

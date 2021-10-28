@@ -40,7 +40,7 @@
                             <td>@Model.usersFat.Min() grams</td>
                         </tr>
                         <tr>
-                            <th>Mean Saved Amount</th>
+                            <th>Mean Saved Amount in Across Meals</th>
                             <td>@Math.Round(Model.calsPerMeal.Average(),2) calories</td>
                             
                             <td>@Math.Round(Model.proteinPerMeal.Average(), 2) grams</td>
@@ -48,14 +48,14 @@
                             <td>@Math.Round(Model.fatPerMeal.Average(), 2) grams</td>
                         </tr>
                         <tr>
-                            <th>Highest Saved Amount</th>
+                            <th>Highest Saved Amount in a Meal</th>
                             <td>@Model.calsPerMeal.Max() calories</td>
                             <td>@Model.proteinPerMeal.Max() grams</td>
                             <td>@Model.carbsPerMeal.Max() grams</td>
                             <td>@Model.fatPerMeal.Max() grams</td>
                         </tr>
                         <tr>
-                            <th>Lowest Saved Amount</th>
+                            <th>Lowest Saved Amount in a Meal</th>
                             <td>@Model.calsPerMeal.Min() calories</td>
                             <td>@Model.proteinPerMeal.Min() grams</td>
                             <td>@Model.carbsPerMeal.Min() grams</td>
@@ -74,7 +74,7 @@
         <div class="col-lg">
             @if (Model.linkedCategoryCount.Length > 0)
             {
-                <canvas id="categoryChart" height="200"></canvas>
+                <canvas id="categoryChart" width="200" height="100"></canvas>
             }
             else
             {

@@ -1,7 +1,0 @@
-﻿@page
-@model SmartDietCapstone.Areas.Identity.Pages.Account.Manage.ChartModel
-@using System.Web.Helpers;
-@{
-    var chart = new Chart(width: 500, height: 800, theme: ChartTheme.Vanilla3D).AddSeries(name: "Food Categories by Count", axisLabel: "Food Category"
-        , xValue: Model.categoryLabels, yValues: Model.linkedCategoryCount).Write(format: "jpeg");
-}

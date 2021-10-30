@@ -75,7 +75,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new SmartDietCapstoneUser { UserName = Input.Email, Email = Input.Email };
+                var user = new SmartDietCapstoneUser { UserName = Input.Email, Email = Input.Email, EmailConfirmed = true }; // Adjusted so there is no email confirmation
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 
                 

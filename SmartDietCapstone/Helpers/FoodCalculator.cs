@@ -44,7 +44,7 @@ namespace SmartDietCapstone
             caller = apiCaller;
         }
         /// <summary>
-        /// Implements Benedict-Harris method of calculating calories based on physiology and activity levels.
+        /// Implements Mifflin-St Jeor method of calculating calories based on physiology and activity levels.
         /// Assumes measurements are imperial, not metric
         /// </summary>
         /// <param name="gender"></param>
@@ -58,11 +58,11 @@ namespace SmartDietCapstone
         {
             double calories = 2000;
             if (gender == "male")
-                calories = 66.47 + (6.24 * weight) + (12.7 * height) - (6.755 * age);
+                calories = 10 * weight + 6.25 * height - 5 * age + 5;
 
 
             else if (gender == "female")
-                calories = 655.1 + (4.35 * weight) + (4.7 * height) - (4.7 * age);
+                calories =   10 * weight + 6.25 * height - 5 * age - 161;
 
             switch (activityLevel)
             {

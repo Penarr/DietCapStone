@@ -28,7 +28,7 @@ namespace SmartDietCapstone.Helpers
         public async Task<string> SearchFood(string query)
         {
             var response = await _client.GetAsync($"{apiUrl}search?query={query}&dataType=Foundation&pageSize=140&api_key={apiKey}"); // search
-
+            
             return await response.Content.ReadAsStringAsync();
         }
         /// <summary>

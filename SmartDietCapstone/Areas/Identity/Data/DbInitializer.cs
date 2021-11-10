@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDietCapstone.Areas.Identity.Data;
 using SmartDietCapstone.Data;
-using SSD_Lab1.Data;
-using SSD_Lab1.Models;
+using SmartDietCapstone.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SSD_Lab1.Data
+namespace SmartDietCapstone.Data
 {
     public static class DbInitializer
     {

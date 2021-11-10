@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SSD_Lab1.Models
+namespace SmartDietCapstone.Models
 {
     public class AppSecrets
     {

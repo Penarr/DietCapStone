@@ -25,7 +25,7 @@ namespace SmartDietCapstone.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
-        //public DbSet<Diet> Diets { get; set; }
+        // public DbSet<Diet> Diets { get; set; }
 
     }
 }

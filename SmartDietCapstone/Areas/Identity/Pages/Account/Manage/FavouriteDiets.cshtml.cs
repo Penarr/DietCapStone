@@ -51,7 +51,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
         {
             if (HttpContext.Session.Keys.Contains("favouriteDiet"))
                 await SaveFavouriteDiet();
-            await GetFavouriteDiets();
+            
             return new PageResult();
         }
 
@@ -91,7 +91,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
 
         }
 
-        public async Task DeleteFavouriteDiet(string dietId)
+        public async Task OnPostDeleteFavouriteDiet(string dietId)
         {
             string connectionString = _configuration.GetConnectionString("SmartDietCapstoneContextConnection");
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -113,6 +113,8 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
 
 
             }
+            await GetFavouriteDiets();
+
         }
         /// <summary>
         /// Change

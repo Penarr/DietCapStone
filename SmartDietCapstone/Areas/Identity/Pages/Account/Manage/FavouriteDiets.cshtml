@@ -45,9 +45,9 @@
                         </form>
                     </td>
                     <td>
-                        <form method="post" asp-page-handler="DeleteDiet">
+                        <form method="post">
                             <input type="hidden" value="@Model.dietIds[i]" name="dietId" />
-                            <button type="submit" value="Submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" value="Submit" class="btn btn-danger"  asp-page-handler="DeleteFavouriteDiet">Delete</button>
                         </form>
                     </td>
 

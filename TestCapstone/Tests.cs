@@ -101,8 +101,6 @@ namespace TestCapstone
         public void TestCalorieCalculator()
         {
             
-
-
             string gender = "male";
             int age = 25;
             double weight = 190 / 2.20462;

@@ -147,7 +147,7 @@ namespace SmartDietCapstone.Pages
             HttpContext.Session.SetInt32("mealIndex", mealIndex);
             HttpContext.Session.SetString("favouriteDiet", JsonConvert.SerializeObject(_diet));
 
-            return new RedirectToPageResult("/Account/Manage/FavouriteDiets", "SaveDiet", new { area = "Identity" });
+            return new RedirectToPageResult("/EditMeal");
 
 
 

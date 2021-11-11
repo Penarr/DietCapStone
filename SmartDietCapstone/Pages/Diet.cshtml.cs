@@ -32,7 +32,7 @@ namespace SmartDietCapstone.Pages
         public double dietFat;
         public double recommendedFat;
         private readonly UserManager<SmartDietCapstoneUser> _userManager;
-        
+
         public DietModel(UserManager<SmartDietCapstoneUser> userManager)
         {
 
@@ -52,7 +52,7 @@ namespace SmartDietCapstone.Pages
 
         internal void CalculateDietMacros()
         {
-            
+
             if (_diet != null)
             {
                 foreach (Meal meal in _diet)
@@ -98,24 +98,24 @@ namespace SmartDietCapstone.Pages
                 }
                 recommendedCalories = foodCalculator.calorieCount;
             }
-           if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(User);
-                if(user.UserCalories > 0)
+                if (user.UserCalories > 0)
                 {
                     recommendedCalories = user.UserCalories;
                     recommendedProtein = user.UserProtein;
                     recommendedCarbs = user.UserCarbs;
                     recommendedFat = user.UserFat;
                 }
-                    
+
             }
-               
+
 
         }
 
 
-       
+
         /// <summary>
         /// Saves diet to database as favourite diet if user is logged in
         /// </summary>
@@ -131,6 +131,25 @@ namespace SmartDietCapstone.Pages
             }
 
             return new PageResult();
+
+        }
+        /// <summary>
+        /// Adds an empty meal to the diet, then redirects to the edit page to create said meal.
+        /// </summary>
+        /// <returns></returns>
+
+        public async Task<IActionResult> OnPostAddMeal()
+        {
+            await SetDietAndCalculator();
+
+            _diet.Add(new Meal());
+            int mealIndex = _diet.Count() - 1;
+            HttpContext.Session.SetInt32("mealIndex", mealIndex);
+            HttpContext.Session.SetString("favouriteDiet", JsonConvert.SerializeObject(_diet));
+
+            return new RedirectToPageResult("/Account/Manage/FavouriteDiets", "SaveDiet", new { area = "Identity" });
+
+
 
         }
         /// <summary>

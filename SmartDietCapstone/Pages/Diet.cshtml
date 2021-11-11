@@ -128,11 +128,22 @@
             </div>
 
         }
+        <div class="row">
+            <div class="col">
+                <form method="post" asp-page-handler="SaveDiet">
+                    <input type="hidden"  name="jsonDiet" />
+                    <button type="submit" class="btn btn-primary" value="Submit">Save Diet</button>
+                </form>
+            </div>
+            <div class="col">
+                <form method="post" asp-page-handler="AddMeal">
+                    <input type="hidden"  name="jsonDiet" />
+                    <button type="submit" class="btn btn-success" value="Submit">Add Meal</button>
+                </form>
 
-        <form method="post" asp-page-handler="SaveDiet">
-            <input type="hidden" value="@Json." name="jsonDiet" />
-            <button type="submit" class="btn btn-primary" value="Submit">Save Diet</button>
-        </form>
+            </div>
+        </div>
+        
 
     }
 

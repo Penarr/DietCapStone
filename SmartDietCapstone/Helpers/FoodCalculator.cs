@@ -263,13 +263,13 @@ namespace SmartDietCapstone
                 switch (carbAmount)
                 {
                     case 1:
-                        fatPercent = 0.45;
+                        fatPercent = 0.3;
                         break;
                     case 2:
-                        fatPercent = 0.35;
+                        fatPercent = 0.2;
                         break;
                     case 3:
-                        fatPercent = 0.25;
+                        fatPercent = 0.1;
                         break;
 
                 }
@@ -297,22 +297,22 @@ namespace SmartDietCapstone
         /// <returns></returns>
         public double CalculateCarbs(double calories, int carbAmount, bool isKeto)
         {
-            double carbPercent = 0.55;
+            double carbPercent = 0.5;
 
             if (isKeto)
-                carbPercent = 0.60;
+                carbPercent = 0.1;
             else
             {
                 switch (carbAmount)
                 {
                     case 1:
-                        carbPercent = 0.45;
+                        carbPercent = 0.4;
                         break;
                     case 2:
-                        carbPercent = 0.55;
+                        carbPercent = 0.5;
                         break;
                     case 3:
-                        carbPercent = 0.65;
+                        carbPercent = 0.6;
                         break;
 
                 }

@@ -1,19 +1,14 @@
 
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using SmartDietCapstone;
-using SmartDietCapstone.Areas.Identity.Data;
-using SmartDietCapstone.Areas.Identity.Pages.Account;
+
 using SmartDietCapstone.Data;
 using SmartDietCapstone.Helpers;
 using SmartDietCapstone.Models;
@@ -31,7 +26,7 @@ namespace TestCapstone
     {
          //private readonly WebApplicationFactory<SmartDietCapstone.Startup> _factory;
         private HttpClient client;
-        
+        private const string Url = "https://smartdietcapstone.azurewebsites.net/";
 
         public Tests(WebApplicationFactory<SmartDietCapstone.Startup> factory)
         {
@@ -155,14 +150,26 @@ namespace TestCapstone
         }
 
         [Fact]
-        public async Task TestValidEmail()
+        public async Task TestRegiser_EmailInUse()
         {
              
             using(var driver = WebDriver.CreateBrowser())
             {
+               
+                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/Identity/Account/Register");
+                driver.FindElement(By.LinkText("Register")).Click();
+                driver.FindElement(By.Id("Input_Email")).SendKeys("penarr@dietcapstone.ca");
+                driver.FindElement(By.Id("Input_Password")).SendKeys("Pa55word1!");
+                driver.FindElement(By.Id("Input_ConfirmPassword")).SendKeys("Pa55word1!");
+
+                driver.FindElement(By.ClassName("btn-primary")).Click();
+
+                
+                var returnUrl = driver.Url;
+                Assert.Equal("https://smartdietcapstone.azurewebsites.net/Identity/Account/Register", returnUrl);
 
             }
-            
+
         }
 
 

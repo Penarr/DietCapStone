@@ -145,8 +145,7 @@ namespace SmartDietCapstone.Pages
             _diet.Add(new Meal());
             int mealIndex = _diet.Count() - 1;
             HttpContext.Session.SetInt32("mealIndex", mealIndex);
-            HttpContext.Session.SetString("favouriteDiet", JsonConvert.SerializeObject(_diet));
-
+            TempData["meal"] = JsonConvert.SerializeObject(_diet[mealIndex]);
             return new RedirectToPageResult("/EditMeal");
 
 

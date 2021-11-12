@@ -13,7 +13,7 @@ namespace TestCapstone
 
         public static IWebDriver CreateBrowser()
         {
-            return new ChromeDriver();
+            return new ChromeDriver("C:/chromedriver_95");
         }
     }
 }

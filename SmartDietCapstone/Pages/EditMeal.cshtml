@@ -80,11 +80,11 @@ else
                         <button type="button" id="searchButton" class="btn btn-success">Search</button>
                     </div>
                 </div>
-                    
-                
-                
-                    
-               
+
+
+
+
+
             </div>
             <table class="table overflow-auto table-responsive-sm" height="400">
                 <thead>
@@ -186,7 +186,7 @@ else
 @section Scripts{
     @if (Model.meal != null)
     {
-        <script>
+<script>
             $(document).ready(function () {
             // Global variables of meal informawtion
             var foods = @Json.Serialize(Model.meal.foods);
@@ -195,7 +195,7 @@ else
             var totalCarbs = @Json.Serialize(Model.meal.totalCarbs);
             var totalFat = @Json.Serialize(Model.meal.totalFat);
             var currentIndex = 0;
-
+                var foodBeingEdited;
             // Global variables of macros per gram of a food being edited
             var calsPerGram;
             var proteinPerGram;
@@ -216,13 +216,28 @@ else
                 }
             }).done(function (data) {
 
-                $("searchBody").html(""); // CLEARS TABLE OF CURRENT RESULTS
+                $("#searchBody").html(""); // CLEARS TABLE OF CURRENT RESULTS
                 for (i = 0; i < data.length; i++) {
-                    food = data[i];
-                    var addFoodButton = $("<button>", { "class": "btn btn-primary add-food-button", "type": "button", "text": "Add", "data-toggle": "modal", "data-target": "#foodModal" }).click(function () {
 
-                        foods.push(food);
-                        repopulateCurrentMeal();
+                    let food = data[i];
+                    var addFoodButton = $("<button>", { "class": "btn btn-primary addFoodButton", "type": "button", "text": "Add", "data-toggle": "modal", "data-target": "#foodModal" }).click(function () {
+
+                        currentIndex = foods.length;
+                        foodBeingEdited = food;
+                        calsPerGram = food.cals / food.servingSize;
+                        proteinPerGram = food.protein / food.servingSize;
+                        carbsPerGram = food.carbs / food.servingSize;
+                        fatPerGram = food.fat / food.servingSize;
+
+                        $("#foodNameCell").html(food.name);
+                        $("#servingSizeInput").val(food.servingSize);
+                        $("#calsInput").val(food.cals);
+                        $("#proteinInput").val(food.protein);
+                        $("#carbsInput").val(food.carbs);
+                        $("#fatInput").val(food.fat);
+
+                        $("#servingSizeInput").change(changeFoodMacros);
+                       // repopulateCurrentMeal();
                     }); // BUTTON THAT WILL ADD FOOD RESULT TO DIET WHEN CLICKED.
 
                     var foodRow = $("<tr> <td>" + food.name + "</td> <td>" + food.cals + "</td> <td>" +
@@ -237,10 +252,12 @@ else
         });
 
         // Prepares html table that allows user to edit food items
-            $(".editFoodButton").click(function () {
-              
-                currentIndex = $(this).val();
-                var food = foods[currentIndex];
+                $(".editFoodButton").click(function () {
+
+
+                    let currentIndex = $(this).val();
+                    let food = foods[currentIndex];
+                    foodBeingEdited = food;
 
                 calsPerGram = food.cals / food.servingSize;
                 proteinPerGram = food.protein / food.servingSize;
@@ -255,14 +272,12 @@ else
                 $("#fatInput").val(food.fat);
 
                 $("#servingSizeInput").change(changeFoodMacros);
-
             });
 
 
                 // Delete food from meal, then repopulates table
                 $(".deleteFoodButton").click(function () {
-                  
-                    deleteIndex = $(this).val();
+                    let deleteIndex = $(this).val();
                     if (deleteIndex > -1)
                         foods.splice(deleteIndex, 1);
 
@@ -280,6 +295,11 @@ else
             // Saves changes to food currently being edited
             $("#save-changes").click(function () {
                 if ($("#servingSizeInput").val() > 0) {
+
+                    if (currentIndex == foods.length) {
+                        foods.push(foodBeingEdited);
+                    }
+                     
                     changeFoodMacros();
                     foods[currentIndex].servingSize = $("#servingSizeInput").val();
                     foods[currentIndex].cals = $("#calsInput").val();
@@ -291,10 +311,6 @@ else
                 }
 
             });
-
-
-
-
 
             //  Repopulates meal table with foods array
                 function repopulateCurrentMeal() {
@@ -309,12 +325,12 @@ else
                         "<td>"+  foods[i].fat + " grams </td>" +
                         "<td></td><td></td></tr>");
 
-                    var editFoodButton = $("<button>", { "class": "btn btn-info editFoodButton", "type": "button", "text": "Edit", "value": i}).click(function () {
+                    var editFoodButton = $("<button>", { "class": "btn btn-info editFoodButton", "type": "button", "text": "Edit", "value": i, "data-toggle": "modal", "data-target": "#foodModal"}).click(function () {
 
-                        currentIndex = $(this).val();
-                        console.log(currentIndex);
+                        let currentIndex = $(this).val();
+
                         var food = foods[currentIndex];
-
+                        foodBeingEdited = food;
                         calsPerGram = food.cals / food.servingSize;
                         proteinPerGram = food.protein / food.servingSize;
                         carbsPerGram = food.carbs / food.servingSize;
@@ -345,7 +361,7 @@ else
                     $("td:last",mealRow).append(deleteFoodButton); // DELETE BUTTON TO LAST CELL IN TABLE ROW
                     $("#currentMealBody").append(mealRow); //APPENDS ROW TO SEARCH BODY
                 }
-                
+
 
                 calculateCurrentTotals();
             }
@@ -377,6 +393,6 @@ else
 
         });
 
-        </script>
+</script>
     }
 }

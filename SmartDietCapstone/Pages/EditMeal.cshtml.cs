@@ -61,7 +61,7 @@ namespace SmartDietCapstone.Pages
             {
                 Meal meal = new Meal();
 
-                foreach (Food food in meal.foods)
+                foreach (Food food in foods)
                     meal.AddFood(food);
 
                 TempData["meal"] = JsonConvert.SerializeObject(meal);

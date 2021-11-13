@@ -10,11 +10,11 @@ namespace SmartDietCapstone
         public Food() { }
         public Food(double servingSize, double cals, double protein, double fat, double carbs)
         {
-            this.servingSize = servingSize;
-            this.cals = cals;
-            this.protein = protein;
-            this.carbs = carbs;
-            this.fat = fat;
+            this.servingSize = Math.Round(servingSize,2);
+            this.cals = Math.Round(cals,2);
+            this.protein = Math.Round(protein,2);
+            this.carbs = Math.Round(carbs,2);
+            this.fat = Math.Round(fat,2);
         }
         public int fdcId { get; set; }
         public double servingSize { get; set; }

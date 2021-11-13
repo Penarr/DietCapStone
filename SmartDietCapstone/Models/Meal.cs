@@ -18,10 +18,10 @@ namespace SmartDietCapstone.Models
 
         public void AddFood(Food food) {
             foods.Add(food);
-            totalCals += food.cals;
-            totalCarbs += food.carbs;
-            totalProtein += food.protein;
-            totalFat += food.fat;
+            totalCals += Math.Round(food.cals,2);
+            totalCarbs += Math.Round(food.carbs,2);
+            totalProtein += Math.Round(food.protein,2);
+            totalFat += Math.Round(food.fat,2);
         }
         
 

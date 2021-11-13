@@ -47,7 +47,7 @@ namespace SmartDietCapstone.Pages
         {
             await SetDietAndCalculator();
             CalculateDietMacros();
-
+          
         }
         /// <summary>
         /// Calculates information of entire diet
@@ -100,6 +100,9 @@ namespace SmartDietCapstone.Pages
                     await _userManager.UpdateAsync(user);
                 }
                 recommendedCalories = foodCalculator.calorieCount;
+                recommendedProtein = foodCalculator.proteinCount;
+                recommendedCarbs = foodCalculator.carbCount;
+                recommendedFat = foodCalculator.fatCount;
             }
             if (User.Identity.IsAuthenticated) // Uses current information about user if viewing a diet not generated randomly
             {
@@ -114,7 +117,7 @@ namespace SmartDietCapstone.Pages
 
             }
 
-
+           
         }
 
 
@@ -207,6 +210,10 @@ namespace SmartDietCapstone.Pages
             if (HttpContext.Session.Keys.Contains("mealIndex"))
             {
                 int mealIndex = (int)HttpContext.Session.GetInt32("mealIndex");
+                if (mealIndex == _diet.Count)
+                    _diet.Add(new Meal());
+                   
+                
                 if (TempData.ContainsKey("meal"))
                 {
                     _diet[mealIndex] = JsonConvert.DeserializeObject<Meal>(TempData["meal"] as string);

@@ -43,7 +43,7 @@ namespace SmartDietCapstone.Pages
             
         }
         /// <summary>
-        /// 
+        /// Generates diet based on user's inputs.
         /// </summary>
         /// <param name="genderSelect"></param>
         /// <param name="age"></param>

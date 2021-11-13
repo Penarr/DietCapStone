@@ -28,20 +28,30 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
             _userManager = userManager;
             _configuration = configuration;
             
-            users = _userManager.Users.ToList();
         }
 
-
+        /// <summary>
+        /// Gets lists of admins and users. Saves users that aren't admins
+        /// </summary>
+        /// <returns></returns>
         public async Task GetUsers()
         {
             admins = (List<SmartDietCapstoneUser>)await _userManager.GetUsersInRoleAsync("Admin");
             users = _userManager.Users.Where(user => !admins.Contains(user)).ToList();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task OnGet()
         {
             await GetUsers();
         }
-
+        /// <summary>
+        /// Deletes user if user is found in database
+        /// </summary>
+        /// <param name="userId">Id of user to be deleted</param>
+        /// <returns></returns>
         public async Task OnPostDeleteUser(string userId)
         {
             var result = _userManager.FindByIdAsync(userId);

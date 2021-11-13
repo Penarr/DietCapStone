@@ -64,6 +64,10 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
                 PhoneNumber = phoneNumber
             };
         }
+        /// <summary>
+        /// Sets nutritional information of user to be displayed
+        /// </summary>
+        /// <param name="user">Current user</param>
         public void SetNutritionInfo(SmartDietCapstoneUser user)
         {
             userCalories = user.UserCalories;

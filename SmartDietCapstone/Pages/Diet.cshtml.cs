@@ -49,7 +49,9 @@ namespace SmartDietCapstone.Pages
             CalculateDietMacros();
 
         }
-
+        /// <summary>
+        /// Calculates information of entire diet
+        /// </summary>
         internal void CalculateDietMacros()
         {
 
@@ -75,6 +77,7 @@ namespace SmartDietCapstone.Pages
             var diet = "";
             var calculator = "";
 
+
             if (HttpContext.Session.Keys.Contains("diet"))
             {
                 diet = HttpContext.Session.GetString("diet");
@@ -87,7 +90,7 @@ namespace SmartDietCapstone.Pages
             {
                 calculator = HttpContext.Session.GetString("calculator");
                 foodCalculator = JsonConvert.DeserializeObject<FoodCalculator>(calculator);
-                if (User.Identity.IsAuthenticated)
+                if (User.Identity.IsAuthenticated) // Saves updated user information
                 {
                     var user = await _userManager.GetUserAsync(User);
                     user.UserCalories = foodCalculator.calorieCount;
@@ -98,7 +101,7 @@ namespace SmartDietCapstone.Pages
                 }
                 recommendedCalories = foodCalculator.calorieCount;
             }
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated) // Uses current information about user if viewing a diet not generated randomly
             {
                 var user = await _userManager.GetUserAsync(User);
                 if (user.UserCalories > 0)

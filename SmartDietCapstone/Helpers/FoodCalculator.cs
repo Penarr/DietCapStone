@@ -57,14 +57,15 @@ namespace SmartDietCapstone
         public double CalculateCalories(string gender, int age, double weight, double height, int goal, int activityLevel)
         {
             double calories = 2000;
-            if (gender == "male")
+
+            if (gender == "male") // male equation
                 calories = 10 * weight + 6.25 * height - 5 * age + 5;
 
 
-            else if (gender == "female")
+            else if (gender == "female") // female equation
                 calories =   10 * weight + 6.25 * height - 5 * age - 161;
 
-            switch (activityLevel)
+            switch (activityLevel) // Increases calorie count based on activity level
             {
                 case 0:
                     calories *= 1.2;
@@ -87,7 +88,7 @@ namespace SmartDietCapstone
                     break;
             }
 
-            switch (goal)
+            switch (goal) // goal changes calorie count so users either gain/lose a lb of week. 
             {
                 case 0:
                     calories -= 500;
@@ -246,7 +247,7 @@ namespace SmartDietCapstone
         }
 
         /// <summary>
-        /// 
+        /// Calculates fat percentage based on users information
         /// </summary>
         /// <param name="calories"></param>
         /// <param name="carbAmount"></param>
@@ -280,7 +281,11 @@ namespace SmartDietCapstone
 
         }
 
-
+        /// <summary>
+        /// Protein is always 30% of calorie count for the purposes of this application
+        /// </summary>
+        /// <param name="calories"></param>
+        /// <returns></returns>
         public double CalculateProtein(double calories)
         {
             // Amount of protein in grams
@@ -289,7 +294,7 @@ namespace SmartDietCapstone
         }
 
         /// <summary>
-        /// 
+        /// Calcualtes carb count baed on user preference
         /// </summary>
         /// <param name="calories"></param>
         /// <param name="carbAmount"></param>
@@ -323,7 +328,11 @@ namespace SmartDietCapstone
         }
 
         /// <summary>
+        /// Generates diet based on user's nutrional info.
         /// 
+        /// The number of meals is 1 to 4 depending on input, but the max number of foods
+        /// per meal is always 3 for the purposes of this. It is a little volatile but works most of the time
+        /// within like a 200 or 300 calorie and macro nutrient range.
         /// </summary>
         /// <param name="mealNum"></param>
         /// <returns></returns>
@@ -333,7 +342,7 @@ namespace SmartDietCapstone
             List<Meal> mealPlan = new List<Meal>();
             for (int i = 0; i < mealNum; i++)
             {
-                // Calories for each meal
+                // Amount of each nutrient for each meal
                 double calsRemaining = calorieCount / mealNum;
                 double proteinRemaining = proteinCount / mealNum;
                 double carbsRemaining = carbCount / mealNum;
@@ -343,8 +352,6 @@ namespace SmartDietCapstone
                 //Individual food generation per meal
                 for (int j = 0; j < 3; j++)
                 {
-                    
-                   
                     if(calsRemaining > 200)
                     {
                         Food f = await CalculateFood(queries[j], j, calsRemaining, proteinRemaining, fatRemaining, carbsRemaining, mealNum);
@@ -354,8 +361,6 @@ namespace SmartDietCapstone
                         proteinRemaining -= meal.totalProtein;
                         carbsRemaining -= meal.totalCarbs;
                         fatRemaining -= meal.totalFat;
-
-                     
 
                     }
                     

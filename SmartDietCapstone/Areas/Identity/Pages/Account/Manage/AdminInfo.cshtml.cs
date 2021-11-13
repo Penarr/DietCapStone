@@ -44,7 +44,10 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
             await GetFoodCategories();
         }
 
-
+        /// <summary>
+        /// Gets macros of all users
+        /// </summary>
+        /// <returns></returns>
         public async Task GetUserMacros()
         {
             string connectionString = _configuration.GetConnectionString("SmartDietCapstoneContextConnection");
@@ -75,7 +78,10 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
                 }
             }
         }
-
+        /// <summary>
+        /// Gets information of all saved diets in database
+        /// </summary>
+        /// <returns></returns>
         public async Task GetFoodCategories()
         {
             string connectionString = _configuration.GetConnectionString("SmartDietCapstoneContextConnection");
@@ -107,6 +113,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
                             
 
                         categories.Sort();
+                        // Information for bar chart that uses food categories
                         categoryLabels = categories.Distinct().ToArray();
                         linkedCategoryCount = new int[categories.Distinct().Count()];
 

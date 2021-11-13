@@ -90,7 +90,11 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
 
 
         }
-
+        /// <summary>
+        /// Deletes diet from database
+        /// </summary>
+        /// <param name="dietId">Id of diet to be deleted</param>
+        /// <returns></returns>
         public async Task OnPostDeleteFavouriteDiet(string dietId)
         {
             string connectionString = _configuration.GetConnectionString("SmartDietCapstoneContextConnection");

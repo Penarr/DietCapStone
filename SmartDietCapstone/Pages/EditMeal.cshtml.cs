@@ -24,6 +24,9 @@ namespace SmartDietCapstone.Pages
             caller = new APICaller(_configuration["Secrets:FDCApi"], _configuration["Secrets:FDCApiKey"],  _client);
             
         }
+        /// <summary>
+        /// Converts json string to meal to be edited
+        /// </summary>
         public void OnGet()
         {
             if (TempData.ContainsKey("meal"))
@@ -33,6 +36,12 @@ namespace SmartDietCapstone.Pages
             }
 
         }
+
+        /// <summary>
+        /// AJAX endpoint that searchs for food using query
+        /// </summary>
+        /// <param name="query">Query that searches food</param>
+        /// <returns></returns>
         public async Task<JsonResult> OnGetFoodSearch(string query)
         {
             searchedFoods = await caller.GetListOfSearchedFoods(query);
@@ -40,21 +49,20 @@ namespace SmartDietCapstone.Pages
         }
 
 
-        
+        /// <summary>
+        /// Validates meal, and saves changes to meal then redirects to diet page
+        /// </summary>
+        /// <param name="jsonFoods">Json string of foods in diet</param>
+        /// <returns></returns>
         public  ActionResult OnPostValidateMeal(string jsonFoods)
         {
             List<Food> foods = JsonConvert.DeserializeObject<List<Food>>(jsonFoods);
             if (foods.Count > 0)
             {
                 Meal meal = new Meal();
-                meal.foods = foods;
-                foreach(Food food in meal.foods)
-                {
-                    meal.totalCals += food.cals;
-                    meal.totalProtein += food.protein;
-                    meal.totalCarbs += food.carbs;
-                    meal.totalFat += food.fat;
-                }
+
+                foreach (Food food in meal.foods)
+                    meal.AddFood(food);
 
                 TempData["meal"] = JsonConvert.SerializeObject(meal);
 

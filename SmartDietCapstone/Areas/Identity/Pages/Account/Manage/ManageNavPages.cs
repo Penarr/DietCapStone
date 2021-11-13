@@ -25,6 +25,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
         public static string FavouriteDiets => "FavouriteDiets";
         public static string AdminInfo => "AdminInfo";
+        public static string AdminCrud => "AdminCrud";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
@@ -44,6 +45,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
 
         public static string FavouriteDietsNavClass(ViewContext viewContext) => PageNavClass(viewContext, FavouriteDiets);
         public static string AdminInfoNavClass(ViewContext viewContext) => PageNavClass(viewContext, AdminInfo);
+        public static string AdminCrudNavClass(ViewContext viewContext) => PageNavClass(viewContext, AdminCrud);
 
         private static string PageNavClass(ViewContext viewContext, string page)
         {

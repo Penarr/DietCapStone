@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDietCapstone", "SmartDietCapstone\SmartDietCapstone.csproj", "{36D2157B-4A62-4E7D-8F33-4EF1CFFBCD5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCapstone", "TestCapstone\TestCapstone.csproj", "{EBA13ED0-F1D7-485D-B2C7-EE650543CA42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCapstone", "TestCapstone\TestCapstone.csproj", "{EBA13ED0-F1D7-485D-B2C7-EE650543CA42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,32 @@
+﻿@page
+@model SmartDietCapstone.Areas.Identity.Pages.Account.Manage.AdminCrudModel
+@{
+
+    <h1>Users</h1>
+
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (SmartDietCapstoneUser user in Model.users)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" value="@user.Id" name="userId" />
+                            <button type="submit" value="Submit" class="btn btn-danger" asp-page-handler="DeleteUser">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}

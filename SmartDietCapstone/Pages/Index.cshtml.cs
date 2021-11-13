@@ -42,7 +42,20 @@ namespace SmartDietCapstone.Pages
             _configuration = configuration;
             
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="genderSelect"></param>
+        /// <param name="age"></param>
+        /// <param name="weight"></param>
+        /// <param name="feetSelect"></param>
+        /// <param name="inchSelect"></param>
+        /// <param name="activitySelect"></param>
+        /// <param name="goalSelect"></param>
+        /// <param name="isKeto"></param>
+        /// <param name="carbNumSelect"></param>
+        /// <param name="mealNumSelect"></param>
+        /// <returns></returns>
         public async Task<IActionResult> OnPostAsync(string genderSelect, int age, double weight, int feetSelect, int inchSelect, int activitySelect, int goalSelect, bool isKeto, int carbNumSelect, int mealNumSelect)
         {
             double centimetres = feetSelect * 30.48 + (inchSelect * 2.54);
@@ -55,8 +68,8 @@ namespace SmartDietCapstone.Pages
 
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors);
-                errors = errors.ToList();
+                //var errors = ModelState.Values.SelectMany(v => v.Errors);
+                //errors = errors.ToList();
 
                 return new PageResult();
             }

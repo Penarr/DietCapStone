@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,6 +15,7 @@ using SmartDietCapstone.Models;
 
 namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
 {
+    [Authorize(Roles="Admin")]
     public class AdminInfoModel : PageModel
     {
 

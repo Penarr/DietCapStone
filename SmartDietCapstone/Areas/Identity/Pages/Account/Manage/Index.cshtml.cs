@@ -21,10 +21,10 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
         private readonly SignInManager<SmartDietCapstoneUser> _signInManager;
         private readonly IConfiguration _configuration;
         public List<List<Meal>> favouriteDiets;
-        public List<double> dietCalories;
-        public List<double> dietProtein;
-        public List<double> dietCarbs;
-        public List<double> dietFat;
+        public double userCalories;
+        public double userProtein;
+        public double userFat;
+        public double userCarbs;
         public IndexModel(
             UserManager<SmartDietCapstoneUser> userManager,
             SignInManager<SmartDietCapstoneUser> signInManager,
@@ -33,11 +33,8 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
-            favouriteDiets = new List<List<Meal>>();
-            dietCalories = new List<double>();
-            dietProtein = new List<double>();
-            dietCarbs = new List<double>();
-            dietFat = new List<double>();
+         
+            
         }
 
         public string Username { get; set; }
@@ -59,7 +56,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-           
+            SetNutritionInfo(user);
             Username = userName;
 
             Input = new InputModel
@@ -67,7 +64,13 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
                 PhoneNumber = phoneNumber
             };
         }
-
+        public void SetNutritionInfo(SmartDietCapstoneUser user)
+        {
+            userCalories = user.UserCalories;
+            userProtein = user.UserProtein;
+            userFat = user.UserFat;
+            userCarbs = user.UserCarbs;
+        }
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -75,7 +78,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            
+
             
             await LoadAsync(user);
             return Page();

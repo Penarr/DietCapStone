@@ -24,13 +24,13 @@ namespace TestCapstone
 {
     public class Tests : IClassFixture<WebApplicationFactory<SmartDietCapstone.Startup>>
     {
-         //private readonly WebApplicationFactory<SmartDietCapstone.Startup> _factory;
+        //private readonly WebApplicationFactory<SmartDietCapstone.Startup> _factory;
         private HttpClient client;
         private const string Url = "https://smartdietcapstone.azurewebsites.net/";
 
         public Tests(WebApplicationFactory<SmartDietCapstone.Startup> factory)
         {
-           
+
             var projectDir = Directory.GetCurrentDirectory();
             var configPath = Path.Combine(projectDir, "appsettings.json");
 
@@ -66,7 +66,7 @@ namespace TestCapstone
             AllowAutoRedirect = false
         });
 
-            
+
 
         }
 
@@ -74,18 +74,17 @@ namespace TestCapstone
         [InlineData("/")]
         [InlineData("/Index")]
         [InlineData("/Diet")]
-        [InlineData("/EditMeal")]
         [InlineData("/Error")]
         [InlineData("/Identity/Account/Register")]
         [InlineData("/Identity/Account/Login")]
         public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange done in constructor
-            
+
 
             // Act
             var response = await client.GetAsync(url);
-
+          
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
             Assert.Equal("text/html; charset=utf-8",
@@ -96,7 +95,7 @@ namespace TestCapstone
         [Fact]
         public void TestCalorieCalculator()
         {
-            
+
             string gender = "male";
             int age = 25;
             double weight = 190 / 2.20462;
@@ -149,14 +148,75 @@ namespace TestCapstone
 
 
         }
+        [Fact]
+        public async Task TestCalorieCalculator_EnsureMacrosEqualCalories()
+        {
+            string gender = "male";
+            int age = 25;
+            double weight = 190 / 2.20462;
+            double height = 190;
+            int activityLevel = 3;
+            int goal = 0;
+            int carbNumSelect = 1;
+            bool isKeto = false;
+            var apiClient = new HttpClient();
+            // From online calculator using same values and method to calculate calories
+            APICaller caller = new APICaller("https://api.nal.usda.gov/fdc/v1/", "LFvEHThAZuPapYjKemtarLfGUylkrh1SnDwCdmCA", apiClient);
+            FoodCalculator calculator = new FoodCalculator(gender, age, weight, height, goal, activityLevel, isKeto, carbNumSelect, caller);
+            
+
+            
+            double macroCals = calculator.carbCount * 4 + calculator.proteinCount * 4 + calculator.fatCount * 9;
+            Assert.InRange(calculator.calorieCount, macroCals -5, macroCals + 5);
+        } 
 
         [Fact]
-        public void TestRegiser_EmailInUse()
+        public void TestEditMealPage_NotLoggedIn()
         {
-             
-            using(var driver = WebDriver.CreateBrowser())
+            using (var driver = WebDriver.CreateBrowser())
             {
-               
+
+                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/EditMeal");
+                
+
+
+                var returnUrl = driver.Url;
+                Assert.Equal("https://smartdietcapstone.azurewebsites.net/Identity/Account/Login?ReturnUrl=%2FEditMeal", returnUrl);
+
+            }
+
+        }
+
+
+        [Fact]
+        public void TestEditMealPage_LoggedIn()
+        {
+            using (var driver = WebDriver.CreateBrowser())
+            {
+                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/Identity/Account/Login");
+                driver.FindElement(By.LinkText("Login")).Click();
+                driver.FindElement(By.Id("Input_Email")).SendKeys("penarr@dietcapstone.ca");
+                driver.FindElement(By.Id("Input_Password")).SendKeys("Pa55word!");
+
+
+                driver.FindElement(By.ClassName("btn-primary")).Click();
+                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/EditMeal");
+
+
+
+                var returnUrl = driver.Url;
+                Assert.Equal("https://smartdietcapstone.azurewebsites.net/EditMeal", returnUrl);
+
+            }
+
+        }
+        [Fact]
+        public void TestRegister_EmailInUse()
+        {
+
+            using (var driver = WebDriver.CreateBrowser())
+            {
+
                 driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/Identity/Account/Register");
                 driver.FindElement(By.LinkText("Register")).Click();
                 driver.FindElement(By.Id("Input_Email")).SendKeys("penarr@dietcapstone.ca");
@@ -165,7 +225,7 @@ namespace TestCapstone
 
                 driver.FindElement(By.ClassName("btn-primary")).Click();
 
-                
+
                 var returnUrl = driver.Url;
                 Assert.Equal("https://smartdietcapstone.azurewebsites.net/Identity/Account/Register", returnUrl);
 
@@ -228,20 +288,20 @@ namespace TestCapstone
             using (var driver = WebDriver.CreateBrowser())
             {
 
-                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/Identity/Account/Register");
-                driver.FindElement(By.LinkText("Login")).Click();
+                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/Identity/Account/Login");
+              
                 driver.FindElement(By.Id("Input_Email")).SendKeys("penarr@dietcapstone.ca");
                 driver.FindElement(By.Id("Input_Password")).SendKeys("Pa55word!");
 
 
                 driver.FindElement(By.ClassName("btn-primary")).Click();
 
-                
+
                 var returnUrl = driver.Url;
 
 
 
-                Assert.True(driver.FindElement(By.LinkText("Logout")).Displayed);
+                Assert.True(driver.FindElement(By.Id("logout")).Displayed);
 
 
 
@@ -256,19 +316,19 @@ namespace TestCapstone
             using (var driver = WebDriver.CreateBrowser())
             {
 
-                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/Identity/Account/Register");
-
-                driver.FindElement(By.LinkText("Logout")).Click();
-
-                bool loggedOut = driver.FindElement(By.LinkText("Login")).Displayed;
-                //driver.FindElement(By.LinkText("Login")).Click();
-                //driver.FindElement(By.Id("Input_Email")).SendKeys("penarr@dietcapstone.ca");
-                //driver.FindElement(By.Id("Input_Password")).SendKeys("Pa55word!");
+                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/Identity/Account/Login");
+                
+                driver.FindElement(By.Id("Input_Email")).SendKeys("penarr@dietcapstone.ca");
+                driver.FindElement(By.Id("Input_Password")).SendKeys("Pa55word!");
 
 
-                //driver.FindElement(By.ClassName("btn-primary")).Click();
-                var returnUrl = driver.Url;
-                Assert.Equal("https://smartdietcapstone.azurewebsites.net/", returnUrl);
+                driver.FindElement(By.ClassName("btn-primary")).Click();
+                driver.FindElement(By.Id("logout")).Click();
+                
+
+                bool loggedOut = driver.FindElement(By.Id("login")).Displayed;
+
+                Assert.True(loggedOut);
 
             }
 
@@ -280,8 +340,8 @@ namespace TestCapstone
             using (var driver = WebDriver.CreateBrowser())
             {
 
-                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/Identity/Account/Register");
-                driver.FindElement(By.LinkText("Login")).Click();
+                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/Identity/Account/Login");
+               
                 driver.FindElement(By.Id("Input_Email")).SendKeys("penarr@dietcapstone.ca");
                 driver.FindElement(By.Id("Input_Password")).SendKeys("Pa55word!");
 
@@ -291,6 +351,10 @@ namespace TestCapstone
 
                 driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/");
 
+
+                driver.FindElement(By.Id("age")).Clear();
+                driver.FindElement(By.Id("weight")).Clear();
+
                 driver.FindElement(By.Id("age")).SendKeys("25");
                 driver.FindElement(By.Id("weight")).SendKeys("190");
 
@@ -299,7 +363,7 @@ namespace TestCapstone
                 driver.FindElement(By.ClassName("btn-primary")).Click();
                 var returnUrl = driver.Url;
 
-                Assert.Equal("https://smartdietcapstone.azurewebsites.net/Identity/Account/Manage/FavouriteDiets", returnUrl);
+                Assert.Equal("https://smartdietcapstone.azurewebsites.net/Identity/Account/Manage/FavouriteDiets?handler=SaveDiet", returnUrl);
 
 
 
@@ -314,6 +378,10 @@ namespace TestCapstone
             using (var driver = WebDriver.CreateBrowser())
             {
                 driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/");
+
+                driver.FindElement(By.Id("age")).Clear();
+                driver.FindElement(By.Id("weight")).Clear();
+
 
                 driver.FindElement(By.Id("age")).SendKeys("25");
                 driver.FindElement(By.Id("weight")).SendKeys("190");
@@ -330,15 +398,39 @@ namespace TestCapstone
 
 
         }
-    }
 
         [Fact]
         public void TestValidAccountCreation()
         {
+            using (var driver = WebDriver.CreateBrowser())
+            {
 
+                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/Identity/Account/Register");
+     
+                driver.FindElement(By.Id("Input_Email")).SendKeys("newuser@dietcapstone.ca");
+                driver.FindElement(By.Id("Input_Password")).SendKeys("Pa55word1!");
+                driver.FindElement(By.Id("Input_ConfirmPassword")).SendKeys("Pa55word1!");
 
+                driver.FindElement(By.ClassName("btn-primary")).Click();
+
+                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/Identity/Account/Login");
+                driver.FindElement(By.Id("Input_Email")).SendKeys("newuser@dietcapstone.ca");
+                driver.FindElement(By.Id("Input_Password")).SendKeys("Pa55word1!");
+
+                driver.FindElement(By.ClassName("btn-primary")).Click();
+
+                
+
+                var returnUrl = driver.Url;
+                Assert.Equal("https://smartdietcapstone.azurewebsites.net/", returnUrl);
+
+            }
         }
 
 
+
     }
+
+
 }
+

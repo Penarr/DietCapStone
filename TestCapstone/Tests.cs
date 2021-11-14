@@ -277,14 +277,60 @@ namespace TestCapstone
         [Fact]
         public void TestSaveFavourite_LoggedIn()
         {
+            using (var driver = WebDriver.CreateBrowser())
+            {
 
+                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/Identity/Account/Register");
+                driver.FindElement(By.LinkText("Login")).Click();
+                driver.FindElement(By.Id("Input_Email")).SendKeys("penarr@dietcapstone.ca");
+                driver.FindElement(By.Id("Input_Password")).SendKeys("Pa55word!");
+
+
+                driver.FindElement(By.ClassName("btn-primary")).Click();
+
+
+                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/");
+
+                driver.FindElement(By.Id("age")).SendKeys("25");
+                driver.FindElement(By.Id("weight")).SendKeys("190");
+
+                driver.FindElement(By.ClassName("btn-primary")).Click();
+
+                driver.FindElement(By.ClassName("btn-primary")).Click();
+                var returnUrl = driver.Url;
+
+                Assert.Equal("https://smartdietcapstone.azurewebsites.net/Identity/Account/Manage/FavouriteDiets", returnUrl);
+
+
+
+
+
+            }
         }
 
         [Fact]
         public void TestSaveFavourite_NotLoggedIn()
         {
+            using (var driver = WebDriver.CreateBrowser())
+            {
+                driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/");
+
+                driver.FindElement(By.Id("age")).SendKeys("25");
+                driver.FindElement(By.Id("weight")).SendKeys("190");
+
+                driver.FindElement(By.ClassName("btn-primary")).Click();
+
+                driver.FindElement(By.ClassName("btn-primary")).Click();
+                var returnUrl = driver.Url;
+
+                Assert.Equal("https://smartdietcapstone.azurewebsites.net/Identity/Account/Login?ReturnUrl=%2FIdentity%2FAccount%2FManage%2FFavouriteDiets%3Fhandler%3DSaveDiet", returnUrl);
+
+
+            }
+
 
         }
+    }
 
         [Fact]
         public void TestValidAccountCreation()

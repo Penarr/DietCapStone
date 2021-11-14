@@ -119,9 +119,6 @@ namespace SmartDietCapstone.Pages
 
            
         }
-
-
-
         /// <summary>
         /// Saves diet to database as favourite diet if user is logged in
         /// </summary>
@@ -218,8 +215,10 @@ namespace SmartDietCapstone.Pages
                 {
                     _diet[mealIndex] = JsonConvert.DeserializeObject<Meal>(HttpContext.Session.GetString("meal"));
                     HttpContext.Session.SetString("diet", JsonConvert.SerializeObject(_diet));
+                    HttpContext.Session.Remove("meal");
+                   
                 }
-
+               
 
             }
             CalculateDietMacros();

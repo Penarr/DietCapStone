@@ -151,7 +151,7 @@ namespace SmartDietCapstone.Pages
             _diet.Add(new Meal());
             int mealIndex = _diet.Count() - 1;
             HttpContext.Session.SetInt32("mealIndex", mealIndex);
-            TempData["meal"] = JsonConvert.SerializeObject(_diet[mealIndex]);
+            HttpContext.Session.SetString("meal",JsonConvert.SerializeObject(_diet[mealIndex]));
             return new RedirectToPageResult("/EditMeal");
 
 
@@ -172,7 +172,7 @@ namespace SmartDietCapstone.Pages
 
                 string jsonMeal = JsonConvert.SerializeObject(meal);
                 HttpContext.Session.SetInt32("mealIndex", mealIndex);
-                TempData["meal"] = jsonMeal;
+                HttpContext.Session.SetString("meal", jsonMeal);
                 return new RedirectToPageResult("EditMeal");
 
             }
@@ -214,9 +214,9 @@ namespace SmartDietCapstone.Pages
                     _diet.Add(new Meal());
                    
                 
-                if (TempData.ContainsKey("meal"))
+                if (HttpContext.Session.Keys.Contains("meal"))
                 {
-                    _diet[mealIndex] = JsonConvert.DeserializeObject<Meal>(TempData["meal"] as string);
+                    _diet[mealIndex] = JsonConvert.DeserializeObject<Meal>(HttpContext.Session.GetString("meal"));
                     HttpContext.Session.SetString("diet", JsonConvert.SerializeObject(_diet));
                 }
 

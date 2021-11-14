@@ -29,10 +29,10 @@
                 <strong>Age</strong>
             </div>
             <div class="col-lg-2 col-sm-5 col-md-4">
-                @Html.TextBoxFor(m=>m.age, new { @value="", @class = "form-control", max = "115", type = "number" })
+                @Html.TextBoxFor(m=>m.age, new { @value="", @class = "form-control", max = "115", type = "number", min="16"})
                 <p class="text-danger">@Html.ValidationMessageFor(m=>m.age)</p>
                 
-                @*<input type="number" min="1" max="115" name="age" class="form-control" />*@
+               
             </div>
         </div>
 
@@ -42,6 +42,7 @@
             </div>
             <div class="col-lg-2 col-sm-5 col-md-4">
                 @Html.TextBoxFor(m => m.weight, new { @value = "", @class = "form-control", max = "800", type = "number", min = "60"})
+               
                 <p class="text-danger">@Html.ValidationMessageFor(m => m.weight)</p>
             </div>
         </div>
@@ -111,38 +112,8 @@
         </div>
         <br />
         <h4>Food Preferences:</h4>
-        <!--<div class="row justify-content-around">
-            <div class="col-lg-2 col-sm-5 col-md-4 ">
-                <strong>Diet Type? (Check all that apply)</strong>
-            </div>
-            <div class="col-lg-2 col-sm-5 col-md-4 text-left">
-
-
-                @Html.CheckBox("isGlutenFree", false)
-                @Html.Label("isGlutenFree", "Gluten-Free")
-                <br />
-                @Html.CheckBox("isVegetarian", false)
-                @Html.Label("isVegetarian", "Vegetarian")
-                <br />
-                @Html.CheckBox("isVegan", false)
-                @Html.Label("isVegan", "Vegan")
-                <br />
-                @Html.CheckBox("isKeto", false)
-                @Html.Label("isKeto", "Keto")
-                <br />
-                @Html.CheckBox("isPescatarian", false)
-                @Html.Label("isPescatarian", "Pescatarian")
-                <br />
-                <!--<select name="dietSelect" id="dietSelect" class="form-control">
-            <option value="1" selected>Gluten-free</option>
-            <option value="2">Vegetarian</option>
-            <option value="3">Vegan</option>
-            <option value="4">Keto</option>
-            <option value="5">Pescatarian</option>-->
-                <!--@*<option value="6">6</option>*@-->
-                <!--</select>-->
-            <!--</div>
-        </div>-->
+        
+             
         <div class="row justify-content-around">
             <div class="col-lg-2 col-sm-5 col-md-4">
                 <strong>Please pick your carb intake</strong>
@@ -166,9 +137,7 @@
                     <option value="2">2</option>
                     <option value="3" selected>3</option>
                     <option value="4">4</option>
-                    @*<option value="5">5</option>
-                    <option value="6">6</option>*@
-                </select>
+              </select>
             </div>
         </div>
         <br />
@@ -177,13 +146,7 @@
 </div>
 
 @section Scripts{
-<script>
-    $.ajax({
-        url: "/?handler=Test",
-    }).done(function (result) {
-        console.log(result);
-    });
-</script>
+
     
 }
             

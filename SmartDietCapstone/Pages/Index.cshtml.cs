@@ -25,13 +25,13 @@ namespace SmartDietCapstone.Pages
         [Range(1, 115,ErrorMessage ="Age must be between 1 to 115")]
         
         
-        public int age { get; set; }
+        public int? age { get; set; }
 
 
         [Required(ErrorMessage = "Weight field required")]
         [BindProperty]
         [Range(1, 1000, ErrorMessage = "Weight must be between 1 to 1000")]
-        public double weight { get; set; }
+        public double? weight { get; set; }
 
         private readonly ILogger<IndexModel> _logger;
         private readonly HttpClient _client;

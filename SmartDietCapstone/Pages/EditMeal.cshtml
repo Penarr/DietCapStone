@@ -64,6 +64,8 @@ else
                 </tbody>
             </table>
             <form method="post" asp-page-handler="ValidateMeal">
+                @Html.HiddenFor(m => m.mealLength, new { @value = Model.mealLength })
+                <p class="text-danger">@Html.ValidationMessageFor(m => m.mealLength)</p>
                 <input type="hidden" value="@Json.Serialize(Model.meal.foods)" name="jsonFoods" id="jsonFoods" />
                 <button type="submit" class="btn btn-primary" id="saveMeal">Save Meal</button>
             </form>
@@ -278,8 +280,12 @@ else
                 // Delete food from meal, then repopulates table
                 $(".deleteFoodButton").click(function () {
                     let deleteIndex = $(this).val();
-                    if (deleteIndex > -1)
+                    if (deleteIndex > -1) {
+                        $("#mealLength").val(Number($("#mealLength").val()) - 1);
+                        console.log($("#mealLength").val());
+
                         foods.splice(deleteIndex, 1);
+                    }
 
                     repopulateCurrentMeal();
                 });
@@ -297,9 +303,11 @@ else
                 if ($("#servingSizeInput").val() > 0) {
 
                     if (currentIndex == foods.length) {
+                        $("#mealLength").val(Number($("#mealLength").val()) + 1);
                         foods.push(foodBeingEdited);
                     }
-                     
+                    
+                    console.log($("#mealLength").val());
                     changeFoodMacros();
                     foods[currentIndex].servingSize = $("#servingSizeInput").val();
                     foods[currentIndex].cals = $("#calsInput").val();
@@ -349,8 +357,13 @@ else
                     var deleteFoodButton = $("<button>", { "class": "btn btn-danger deleteFoodButton", "type": "button", "text": "Delete", "value": i }).click(function () {
 
                         deleteIndex = $(this).val();
-                        if (deleteIndex > -1)
+                       
+                        if (deleteIndex > -1) {
                             foods.splice(deleteIndex, 1);
+                            $("#mealLength").val(Number($("#mealLength").val()) - 1);
+                            console.log($("#mealLength").val());
+                        }
+                            
 
                         repopulateCurrentMeal();
                     }); // BUTTON THAT WILL DELETE FOOD SELECTION TO DIET WHEN CLICKED.
@@ -383,7 +396,8 @@ else
             }
 
             // If foods array is over 0, save foods as a json string
-            $("#saveMeal").click(function () {
+                $("#saveMeal").click(function () {
+                    console.log(foods.length);
                 if (foods.length > 0) {
                     $("#jsonFoods").val(JSON.stringify(foods));
                 }

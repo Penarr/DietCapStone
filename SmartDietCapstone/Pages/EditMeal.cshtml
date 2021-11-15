@@ -6,179 +6,175 @@
 </h1>
 @if (Model.meal == null)
 {
-    <p class="text-danger">Please reenter valid information</p>
+<p class="text-danger">Please reenter valid information</p>
 }
 else
 {
-    <h2>Meal</h2>
-    <div class="row">
-        <div class="col-xl-6">
-            <table class="table table-responsive-sm">
-                <thead>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>Serving size</th>
-                        <th>
-                            Calories
-                        </th>
 
-                        <th>
-                            Protein
-                        </th>
-                        <th>
-                            Carbs
-                        </th>
-                        <th>
-                            Fat
-                        </th>
-                        <th>
+<div class="row justify-content-around">
+    <div class="col-xl-6">
+        <table class="table table-responsive-sm">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>Serving size</th>
+                    <th>
+                        Calories
+                    </th>
 
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="currentMealBody">
+                    <th>
+                        Protein
+                    </th>
+                    <th>
+                        Carbs
+                    </th>
+                    <th>
+                        Fat
+                    </th>
+                    <th>
+
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="currentMealBody">
 
 
-                    @for (int i = 0; i < Model.meal.foods.Count; i++)
+                @for (int i = 0; i < Model.meal.foods.Count; i++)
                     {
-                        <tr>
-                            <td>@Model.meal.foods[i].name</td>
-                            <td>@Model.meal.foods[i].servingSize grams</td>
-                            <td>@Model.meal.foods[i].cals calories</td>
-                            <td>@Model.meal.foods[i].protein grams</td>
-                            <td>@Model.meal.foods[i].carbs grams</td>
-                            <td>@Model.meal.foods[i].fat grams</td>
-                            <td>
-                                <button type="button" class="btn btn-info editFoodButton" data-toggle="modal" data-target="#foodModal" value="@i">
-                                    Edit
-                                </button>
-                            </td>
-                            <td><button type="button" class="btn btn-danger deleteFoodButton" value="@i">Delete</button></td>
-                        </tr>
+                <tr>
+                    <td>@Model.meal.foods[i].name</td>
+                    <td>@Model.meal.foods[i].servingSize grams</td>
+                    <td>@Model.meal.foods[i].cals calories</td>
+                    <td>@Model.meal.foods[i].protein grams</td>
+                    <td>@Model.meal.foods[i].carbs grams</td>
+                    <td>@Model.meal.foods[i].fat grams</td>
+                    <td>
+                        <button type="button" class="btn btn-info editFoodButton" data-toggle="modal" data-target="#foodModal" value="@i">
+                            Edit
+                        </button>
+                    </td>
+                    <td><button type="button" class="btn btn-danger deleteFoodButton" value="@i">Delete</button></td>
+                </tr>
 
                     }
 
-                </tbody>
-            </table>
-            <form method="post" asp-page-handler="ValidateMeal">
-                @Html.HiddenFor(m => m.mealLength, new { @value = Model.mealLength })
-                <p class="text-danger">@Html.ValidationMessageFor(m => m.mealLength)</p>
-                <input type="hidden" value="@Json.Serialize(Model.meal.foods)" name="jsonFoods" id="jsonFoods" />
-                <button type="submit" class="btn btn-primary" id="saveMeal">Save Meal</button>
-            </form>
+            </tbody>
+        </table>
+        <form method="post" asp-page-handler="ValidateMeal">
+            @Html.HiddenFor(m => m.mealLength, new { @value = Model.mealLength })
+            <p class="text-danger">@Html.ValidationMessageFor(m => m.mealLength)</p>
+            <input type="hidden" value="@Json.Serialize(Model.meal.foods)" name="jsonFoods" id="jsonFoods" />
+            <button type="submit" class="btn btn-primary" id="saveMeal">Save Meal</button>
+        </form>
 
-            <p id="saveMealError" class="text-danger"><strong></strong></p>
-        </div>
-
-        <div class="col-xl-6">
-            <p><strong>Data shown is per 100g</strong></p>
-            <div class="row">
-                <div class="input-group">
-                    <input type="text" id="searchBar" class="form-control" />
-                    <div class="input-group-append">
-                        <button type="button" id="searchButton" class="btn btn-success">Search</button>
-                    </div>
-                </div>
-
-
-
-
-
-            </div>
-            <table class="table overflow-auto table-responsive-sm" height="400">
-                <thead>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Calories
-                        </th>
-                        <th>
-                            Protein
-                        </th>
-                        <th>
-                            Carbs
-                        </th>
-                        <th>
-                            Fat
-                        </th>
-                        <th>
-
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="searchBody">
-                </tbody>
-            </table>
-        </div>
-
+        <p id="saveMealError" class="text-danger"><strong></strong></p>
     </div>
 
-
-
-
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="foodModal" tabindex="-1" role="dialog" aria-labelledby="foodModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="foodModalTitle">Edit Food</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    <div class="col-xl-5">
+        <p><strong>Data shown is per 100g</strong></p>
+        <div class="row">
+            <div class="input-group">
+                <input type="text" id="searchBar" class="form-control" />
+                <div class="input-group-append">
+                    <button type="button" id="searchButton" class="btn btn-success">Search</button>
                 </div>
-                <div class="modal-body">
-                    <table id="editFoodTable" class="table table-responsive-sm">
+            </div>
+        </div>
 
-                        <thead>
-                            <tr>
-                                <th>
-                                    Name
-                                </th>
-                                <th>Serving size</th>
-                                <th>
-                                    Calories
-                                </th>
+        <table class="table overflow-auto table-responsive-sm" id="searchTable" height="400">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Calories
+                    </th>
+                    <th>
+                        Protein
+                    </th>
+                    <th>
+                        Carbs
+                    </th>
+                    <th>
+                        Fat
+                    </th>
+                    <th>
 
-                                <th>
-                                    Protein
-                                </th>
-                                <th>
-                                    Carbs
-                                </th>
-                                <th>
-                                    Fat
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="editFoodBody">
-                            <tr>
-                                <td id="foodNameCell"></td>
-                                <td><input type="number" class="form-control" value="" id="servingSizeInput" min="0" /></td>
-                                <td><input type="number" class="form-control" value="" id="calsInput" disabled /></td>
-                                <td><input type="number" class="form-control" value="" id="proteinInput" disabled /></td>
-                                <td><input type="number" class="form-control" value="" id="carbsInput" disabled /></td>
-                                <td><input type="number" class="form-control" value="" id="fatInput" disabled /></td>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="searchBody" class="overflow-auto">
+            </tbody>
+        </table>
+    </div>
 
-                            </tr>
-                        </tbody>
+</div>
 
-                    </table>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="save-changes" data-dismiss="modal">Save changes</button>
-                    </div>
+
+
+
+
+ <!-- Modal -->
+<div class="modal fade" id="foodModal" tabindex="-1" role="dialog" aria-labelledby="foodModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="foodModalTitle">Edit Food</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="editFoodTable" class="table table-responsive-sm">
+
+                    <thead>
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>Serving size</th>
+                            <th>
+                                Calories
+                            </th>
+
+                            <th>
+                                Protein
+                            </th>
+                            <th>
+                                Carbs
+                            </th>
+                            <th>
+                                Fat
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="editFoodBody">
+                        <tr>
+                            <td id="foodNameCell"></td>
+                            <td><input type="number" class="form-control" value="" id="servingSizeInput" min="0" /></td>
+                            <td><input type="number" class="form-control" value="" id="calsInput" disabled /></td>
+                            <td><input type="number" class="form-control" value="" id="proteinInput" disabled /></td>
+                            <td><input type="number" class="form-control" value="" id="carbsInput" disabled /></td>
+                            <td><input type="number" class="form-control" value="" id="fatInput" disabled /></td>
+
+                        </tr>
+                    </tbody>
+
+                </table>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-changes" data-dismiss="modal">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 
@@ -188,7 +184,11 @@ else
 @section Scripts{
     @if (Model.meal != null)
     {
-<script>
+    <script src="~/lib/sorter-pager/sorter.js"></script>
+    <script>
+
+
+
             $(document).ready(function () {
             // Global variables of meal informawtion
             var foods = @Json.Serialize(Model.meal.foods);
@@ -206,50 +206,55 @@ else
         // Searches FDC food database, then shows results on table in modal
         $("#searchButton").click(function () {
             let query = $("#searchBar").val();
+            if (query != "") { // Search only if query is not empty
+                $.ajax({ // AJAX REQUEST
+                    url: "/EditMeal?handler=FoodSearch",
+                    data: {
+                        query: query
+                    },
+                    headers: {
+                        RequestVerificationToken:
+                            $('input:hidden[name="__RequestVerificationToken"]').val()
+                    }
+                }).done(function (data) {
 
-            $.ajax({ // AJAX REQUEST
-                url: "/EditMeal?handler=FoodSearch",
-                data: {
-                    query: query
-                },
-                headers: {
-                    RequestVerificationToken:
-                        $('input:hidden[name="__RequestVerificationToken"]').val()
-                }
-            }).done(function (data) {
+                    $("#searchBody").html(""); // CLEARS TABLE OF CURRENT RESULTS
+                    for (i = 0; i < data.length; i++) {
 
-                $("#searchBody").html(""); // CLEARS TABLE OF CURRENT RESULTS
-                for (i = 0; i < data.length; i++) {
+                        let food = data[i];
+                        var addFoodButton = $("<button>", { "class": "btn btn-primary addFoodButton", "type": "button", "text": "Add", "data-toggle": "modal", "data-target": "#foodModal" }).click(function () {
 
-                    let food = data[i];
-                    var addFoodButton = $("<button>", { "class": "btn btn-primary addFoodButton", "type": "button", "text": "Add", "data-toggle": "modal", "data-target": "#foodModal" }).click(function () {
+                            currentIndex = foods.length;
+                            foodBeingEdited = food;
+                            calsPerGram = food.cals / food.servingSize;
+                            proteinPerGram = food.protein / food.servingSize;
+                            carbsPerGram = food.carbs / food.servingSize;
+                            fatPerGram = food.fat / food.servingSize;
 
-                        currentIndex = foods.length;
-                        foodBeingEdited = food;
-                        calsPerGram = food.cals / food.servingSize;
-                        proteinPerGram = food.protein / food.servingSize;
-                        carbsPerGram = food.carbs / food.servingSize;
-                        fatPerGram = food.fat / food.servingSize;
+                            $("#foodNameCell").html(food.name);
+                            $("#servingSizeInput").val(food.servingSize);
+                            $("#calsInput").val(food.cals);
+                            $("#proteinInput").val(food.protein);
+                            $("#carbsInput").val(food.carbs);
+                            $("#fatInput").val(food.fat);
 
-                        $("#foodNameCell").html(food.name);
-                        $("#servingSizeInput").val(food.servingSize);
-                        $("#calsInput").val(food.cals);
-                        $("#proteinInput").val(food.protein);
-                        $("#carbsInput").val(food.carbs);
-                        $("#fatInput").val(food.fat);
+                            $("#servingSizeInput").change(changeFoodMacros);
+                            // repopulateCurrentMeal();
+                        }); // BUTTON THAT WILL ADD FOOD RESULT TO DIET WHEN CLICKED.
 
-                        $("#servingSizeInput").change(changeFoodMacros);
-                       // repopulateCurrentMeal();
-                    }); // BUTTON THAT WILL ADD FOOD RESULT TO DIET WHEN CLICKED.
+                        var foodRow = $("<tr> <td>" + food.name + "</td> <td>" + food.cals + "</td> <td>" +
+                            food.protein + "</td> <td>" + food.carbs + "</td> <td>" + food.fat + "</td><td></td></tr>");
 
-                    var foodRow = $("<tr> <td>" + food.name + "</td> <td>" + food.cals + "</td> <td>" +
-                        food.protein + "</td> <td>" + food.carbs + "</td> <td>" + food.fat + "</td><td></td></tr>");
+                        $("td:last", foodRow).append(addFoodButton); // ADDS BUTTON TO LAST CELL IN TABLE ROW
+                        $("#searchBody").append(foodRow); //APPENDS ROW TO SEARCH BODY
 
-                    $("td:last", foodRow).append(addFoodButton); // ADDS BUTTON TO LAST CELL IN TABLE ROW
-                    $("#searchBody").append(foodRow); //APPENDS ROW TO SEARCH BODY
-                }
 
-            });
+                    }
+                    $("#searchTable").tablesorter();// Adds sorting to table
+                    // $("#searchTable").tablepager();// Adds paging to table
+                });
+            }
+            
 
         });
 
@@ -306,7 +311,7 @@ else
                         $("#mealLength").val(Number($("#mealLength").val()) + 1);
                         foods.push(foodBeingEdited);
                     }
-                    
+
                     console.log($("#mealLength").val());
                     changeFoodMacros();
                     foods[currentIndex].servingSize = $("#servingSizeInput").val();
@@ -357,13 +362,13 @@ else
                     var deleteFoodButton = $("<button>", { "class": "btn btn-danger deleteFoodButton", "type": "button", "text": "Delete", "value": i }).click(function () {
 
                         deleteIndex = $(this).val();
-                       
+
                         if (deleteIndex > -1) {
                             foods.splice(deleteIndex, 1);
                             $("#mealLength").val(Number($("#mealLength").val()) - 1);
                             console.log($("#mealLength").val());
                         }
-                            
+
 
                         repopulateCurrentMeal();
                     }); // BUTTON THAT WILL DELETE FOOD SELECTION TO DIET WHEN CLICKED.
@@ -407,6 +412,6 @@ else
 
         });
 
-</script>
+    </script>
     }
 }

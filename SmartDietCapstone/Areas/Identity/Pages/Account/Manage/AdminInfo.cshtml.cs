@@ -35,8 +35,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
         public List<double> proteinPerMeal = new List<double>();
         public List<double> carbsPerMeal = new List<double>();
         public List<double> fatPerMeal = new List<double>();
-        public string[] categoryLabels;
-        public int[] linkedCategoryCount;
+        public SortedDictionary<string, int> categoryDictionary = new SortedDictionary<string, int>();
 
         public async Task OnGetAsync()
         {
@@ -108,25 +107,21 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
                             carbsPerMeal.Add(meal.totalCarbs);
                             fatPerMeal.Add(meal.totalFat);
                             foreach (Food food in meal.foods)
-                                categories.Add(food.category);
+                            {
+                                if (categoryDictionary.ContainsKey(food.category))
+                                    categoryDictionary[food.category] += 1;
+                                
+                                else
+                                    categoryDictionary.Add(food.category, 1);
+                            }
+                                
                         }
                             
 
-                        categories.Sort();
-                        // Information for bar chart that uses food categories
-                        categoryLabels = categories.Distinct().ToArray();
-                        linkedCategoryCount = new int[categories.Distinct().Count()];
+                        
 
-                        for (int i = 0; i < categories.Count; i++)
-                        {
-                            for (int j = 0; j < categoryLabels.Length; j++)
-                            {
-                                if (categoryLabels[j] == categories[i])
-                                    linkedCategoryCount[j]++;
-                            }
-                        }
                     }
-
+                   
                 }
                 catch (Exception e) { }
 

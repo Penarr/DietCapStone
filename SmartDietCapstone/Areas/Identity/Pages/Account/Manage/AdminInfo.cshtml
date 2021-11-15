@@ -72,7 +72,7 @@
         </div>
 
         <div class="col-lg">
-            @if (Model.linkedCategoryCount.Length > 0)
+            @if (Model.categoryDictionary.Count > 0)
             {
                 <canvas id="categoryChart" width="200" height="100"></canvas>
             }
@@ -94,8 +94,8 @@
     <script>
         $(document).ready(function () {
 
-        var categoryLabels = @Json.Serialize(Model.categoryLabels);
-    var categoryCount =@Json.Serialize(Model.linkedCategoryCount);
+        var categoryLabels = @Json.Serialize(Model.categoryDictionary.Keys);
+    var categoryCount =@Json.Serialize(Model.categoryDictionary.Values);
 
 
      const canvas = $("#categoryChart");
@@ -105,7 +105,7 @@
             labels: categoryLabels,
             datasets: [{
 
-                
+
                 data: categoryCount,
                 backgroundColor: [
                     'rgba(255, 99, 132, 1)',
@@ -131,14 +131,14 @@
                 y: {
                     beginAtZero: true
                 }
-                
+
             },
             plugins: {
                 legend: {
                     display: false
                 }
             },
-            
+
             tooltips: {
                 callbacks: {
                     label: function (item) {

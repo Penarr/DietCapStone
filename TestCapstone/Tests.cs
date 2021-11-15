@@ -178,8 +178,6 @@ namespace TestCapstone
 
                 driver.Navigate().GoToUrl("https://smartdietcapstone.azurewebsites.net/EditMeal");
                 
-
-
                 var returnUrl = driver.Url;
                 Assert.Equal("https://smartdietcapstone.azurewebsites.net/Identity/Account/Login?ReturnUrl=%2FEditMeal", returnUrl);
 
@@ -367,10 +365,6 @@ namespace TestCapstone
                 var returnUrl = driver.Url;
 
                 Assert.Equal("https://smartdietcapstone.azurewebsites.net/Identity/Account/Manage/FavouriteDiets?handler=SaveDiet", returnUrl);
-
-
-
-
 
             }
         }

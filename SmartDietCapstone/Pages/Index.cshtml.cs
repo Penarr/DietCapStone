@@ -79,7 +79,7 @@ namespace SmartDietCapstone.Pages
             {
 
                 
-                FoodCalculator foodCalculator = new FoodCalculator(genderSelect, age, weight, height, goalSelect, activitySelect, isKeto, carbNumSelect, caller);
+                FoodCalculator foodCalculator = new FoodCalculator(genderSelect, age, kilograms, centimetres, goalSelect, activitySelect, isKeto, carbNumSelect, caller);
 
                 var diet = await foodCalculator.GenerateDiet(mealNumSelect);
                

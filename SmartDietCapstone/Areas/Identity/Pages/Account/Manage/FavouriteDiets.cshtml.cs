@@ -128,7 +128,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
 
         }
         /// <summary>
-        /// Change
+        /// Redirect to diet page to view more information about favourited diet.
         /// </summary>
         /// <param name="dietIndex">Index of favourite diet to edit</param>
         /// <returns></returns>
@@ -145,7 +145,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
             return new PageResult();
         }
         /// <summary>
-        /// 
+        /// Get list of diets saved by user
         /// </summary>
         public async Task GetFavouriteDiets()
         {

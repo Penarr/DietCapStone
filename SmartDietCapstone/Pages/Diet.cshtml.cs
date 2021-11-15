@@ -146,7 +146,7 @@ namespace SmartDietCapstone.Pages
         /// <summary>
         /// Adds an empty meal to the diet, then redirects to the edit page to create said meal.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Edit meal page</returns>
 
         public async Task<IActionResult> OnPostAddMeal()
         {

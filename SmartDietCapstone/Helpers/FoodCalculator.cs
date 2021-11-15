@@ -106,12 +106,12 @@ namespace SmartDietCapstone
 
 
         /// <summary>
-        /// 
+        /// Generates a diet after calculating calories and macronutrients based
         /// </summary>
-        /// <param name="query"></param>
+        /// <param name="query">Query being sent to api</param>
         /// <param name="j"></param>
         /// <param name="caloriesRemaining"></param>
-        /// <param name="proteinRemaing"></param>
+        /// <param name="proteinRemaining"></param>
         /// <param name="fatRemaining"></param>
         /// <param name="carbsRemaining"></param>
         /// <param name="mealNum"></param>

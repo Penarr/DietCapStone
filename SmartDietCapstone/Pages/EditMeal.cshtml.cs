@@ -34,14 +34,15 @@ namespace SmartDietCapstone.Pages
             caller = new APICaller(_configuration["Secrets:FDCApi"], _configuration["Secrets:FDCApiKey"], _client);
 
         }
-        /// <summary>
-        /// Converts json string to meal to be edited
-        /// </summary>
+       
         public void OnGet()
         {
             SetMeal();
 
         }
+        /// <summary>
+        /// Converts json string to meal to be edited
+        /// </summary>
         public void SetMeal()
         {
             if (HttpContext.Session.Keys.Contains("meal"))

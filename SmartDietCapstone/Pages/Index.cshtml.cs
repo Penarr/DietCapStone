@@ -95,10 +95,6 @@ namespace SmartDietCapstone.Pages
             }
 
         }
-        public JsonResult OnGetTest()
-        {
-            return new JsonResult("test");
-        }
 
 
     }

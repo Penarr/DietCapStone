@@ -6,7 +6,7 @@
 </h1>
 @if (Model.meal == null)
 {
-<p class="text-danger">Please reenter valid information</p>
+<p class="text-danger">Please select a meal to edit.</p>
 }
 else
 {
@@ -186,9 +186,6 @@ else
     {
     <script src="~/lib/sorter-pager/sorter.js"></script>
     <script>
-
-
-
             $(document).ready(function () {
             // Global variables of meal informawtion
             var foods = @Json.Serialize(Model.meal.foods);
@@ -254,7 +251,7 @@ else
                     // $("#searchTable").tablepager();// Adds paging to table
                 });
             }
-            
+
 
         });
 

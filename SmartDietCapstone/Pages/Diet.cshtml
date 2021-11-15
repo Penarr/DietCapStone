@@ -6,7 +6,7 @@
 <div class="text-center container">
 
     <h1>Diet</h1>
-    @if (Model._diet == null || Model.recommendedCalories == 0)
+    @if (Model.diet == null || Model.recommendedCalories == 0)
     {
 
 
@@ -67,12 +67,12 @@
 
 
 
-        @for (int i = 0; i < Model._diet.Count; i++)
+        @for (int i = 0; i < Model.diet.Count; i++)
         {
             <div class="container-md">
                 <br />
                 <div class="row justify-content-around">
-                    @foreach (Food food in Model._diet[i].foods)
+                    @foreach (Food food in Model.diet[i].foods)
                     {
                         <div class="col-md-8">
                             <p><strong>@food.name</strong></p>
@@ -95,10 +95,10 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>@Model._diet[i].totalCals calories</td>
-                                    <td>@Model._diet[i].totalProtein grams</td>
-                                    <td>@Model._diet[i].totalCarbs grams</td>
-                                    <td>@Model._diet[i].totalFat grams</td>
+                                    <td>@Model.diet[i].totalCals calories</td>
+                                    <td>@Model.diet[i].totalProtein grams</td>
+                                    <td>@Model.diet[i].totalCarbs grams</td>
+                                    <td>@Model.diet[i].totalFat grams</td>
                                 </tr>
 
                             </tbody>

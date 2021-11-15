@@ -116,69 +116,32 @@ namespace SmartDietCapstone
         /// <param name="carbsRemaining"></param>
         /// <param name="mealNum"></param>
         /// <returns></returns>
-        private async Task<Food> CalculateFood(string query, int j, double caloriesRemaining, double proteinRemaing, double fatRemaining, double carbsRemaining, int mealNum)
+        private async Task<Food> CalculateFood(string query, int j, double caloriesRemaining, double proteinRemaining, double fatRemaining, double carbsRemaining, int mealNum)
         {
 
             
             //get id of protein, carb, fat, kcal and derivation description
             Random rand = new Random();
-            var result = await caller.SearchFood(query);
-           
+            //var result = await caller.SearchFood(query);
+            var foodList = await caller.GetListOfSearchedFoods(query);
+            int randIndex = rand.Next(0, foodList.Count());
 
             // JObject that will store information in an array from api
-            JObject obj;
+            //JObject obj;
 
-            Food food = new Food();
-            
+
+            Food food = foodList[randIndex];
             try
             {
                 bool validFoodChoice = false;
                 // Try food again
                 while (!validFoodChoice)
                 {
-                    obj = JObject.Parse(result);
-                    int randIndex = rand.Next(0, obj["foods"].Count());
-                    
-                    food.fdcId = (int)obj["foods"][randIndex]["fdcId"];
-                    food.name = obj["foods"][randIndex]["description"].ToString();
-
-                    food.category = obj["foods"][randIndex]["foodCategory"].ToString();
-                    var foodNutrients = obj["foods"][randIndex]["foodNutrients"];
-                    double calsPerGram = 0;
-                    double proteinPerGram = 0;
-                    double fatPerGram = 0;
-                    double carbsPerGram = 0;
-                    // Iterate through  nutrient value, assign value per gram to variable
-                    for (int i = 0; i < foodNutrients.Count(); i++)
-                    {
-                        try
-                        {
-                            double nutrientNumber = (double)foodNutrients[i]["nutrientNumber"];
-                            switch (nutrientNumber)
-                            {
-                                case calApiNum:
-                                    calsPerGram = (double)foodNutrients[i]["value"] / 100;
-                                    break;
-
-                                case proteinApiNum:
-                                    proteinPerGram = (double)foodNutrients[i]["value"] / 100;
-                                    break;
-                                case carbApiNum:
-                                    carbsPerGram = (double)foodNutrients[i]["value"] / 100;
-                                    break;
-                                case fatApiNum:
-                                    fatPerGram = (double)foodNutrients[i]["value"] / 100;
-                                    break;
-                            }
-                            if (fatPerGram != 0 && proteinPerGram != 0 && carbsPerGram != 0 && calsPerGram != 0)
-                                break;
-                        }
-                        catch(Exception ex){
-
-                        }
-                        
-                    }
-                    if (calsPerGram == 0)
+                double calsPerGram = food.cals / 100;
+                double proteinPerGram = food.protein / 100;
+                double fatPerGram = food.fat / 100;
+                double carbsPerGram = food.carbs / 100;
+                if (calsPerGram == 0)
                         calsPerGram = (proteinPerGram * 4 + carbsPerGram * 4 + fatPerGram * 9);
                     // This section will decide serving size of food
                     double calsPerMeal = calorieCount / mealNum;
@@ -191,7 +154,7 @@ namespace SmartDietCapstone
                     // Protein
                     if (j == 0)
                     {
-                        
+
                         double servingSize = (proteinPerMeal) / proteinPerGram;
                         double caloriesOfFood = calsPerGram * servingSize;
                         if (caloriesOfFood > calsPerMeal + 200 / mealNum)
@@ -203,7 +166,7 @@ namespace SmartDietCapstone
                         food.cals = Math.Round(calsPerGram * servingSize);
                         if (!(food.carbs >= food.protein)! && !(food.fat >= food.protein) || food.cals <= calsPerMeal + calsPerMeal * 0.1 || food.cals < 1)
                             validFoodChoice = true;
-                        
+
                     }
                     // Carb food
                     else if (j == 1)
@@ -212,7 +175,7 @@ namespace SmartDietCapstone
                         double servingSize = (carbsRemaining - carbsPerMeal * 0.05) / carbsPerGram;
                         double caloriesOfFood = calsPerGram * servingSize;
                         if (caloriesOfFood > caloriesRemaining + 200 / mealNum)
-                            servingSize = caloriesRemaining  / calsPerGram;
+                            servingSize = caloriesRemaining / calsPerGram;
                         food.servingSize = Math.Round(servingSize);
                         food.carbs = Math.Round(carbsPerGram * servingSize);
                         food.protein = Math.Round(proteinPerGram * servingSize);

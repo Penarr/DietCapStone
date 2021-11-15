@@ -26,17 +26,6 @@ namespace SmartDietCapstone.Helpers
             _client = client;
         }
         /// <summary>
-        /// Searches food for users.
-        /// </summary>
-        /// <param name="query"></param>
-        /// <returns></returns>
-        public async Task<string> SearchFood(string query)
-        {
-            var response = await _client.GetAsync($"{apiUrl}search?query={query}&dataType=Foundation&pageSize=140&api_key={apiKey}"); // search
-            
-            return await response.Content.ReadAsStringAsync();
-        }
-        /// <summary>
         /// Gets lists of food based on search
         /// </summary>
         /// <param name="query">query being entered into fdc api search</param>

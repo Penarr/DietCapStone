@@ -22,7 +22,7 @@ namespace SmartDietCapstone.Pages
     public class DietModel : PageModel
     {
 
-        public List<Meal> _diet;
+        public List<Meal> diet;
         public FoodCalculator foodCalculator;
         public double dietCalories;
         public double recommendedCalories;
@@ -61,9 +61,9 @@ namespace SmartDietCapstone.Pages
         internal void CalculateDietMacros()
         {
 
-            if (_diet != null)
+            if (diet != null)
             {
-                foreach (Meal meal in _diet)
+                foreach (Meal meal in diet)
                 {
                     dietCalories += meal.totalCals;
                     dietProtein += meal.totalProtein;
@@ -80,14 +80,14 @@ namespace SmartDietCapstone.Pages
         /// </summary>
         private async Task SetDietAndCalculator()
         {
-            var diet = "";
+           
             var calculator = "";
 
 
             if (HttpContext.Session.Keys.Contains("diet"))
             {
-                diet = HttpContext.Session.GetString("diet");
-                _diet = JsonConvert.DeserializeObject<List<Meal>>(diet);
+                var dietString = HttpContext.Session.GetString("diet");
+                diet = JsonConvert.DeserializeObject<List<Meal>>(dietString);
             }
 
 
@@ -133,7 +133,7 @@ namespace SmartDietCapstone.Pages
         {
             await SetDietAndCalculator();
             
-            if (_diet.Count > 0 && ModelState.IsValid)
+            if (diet.Count > 0 && ModelState.IsValid)
             {
                 HttpContext.Session.SetString("favouriteDiet", HttpContext.Session.GetString("diet"));
                 TempData["dietName"] = DietName;
@@ -152,10 +152,10 @@ namespace SmartDietCapstone.Pages
         {
             await SetDietAndCalculator();
 
-            _diet.Add(new Meal());
-            int mealIndex = _diet.Count() - 1;
+            diet.Add(new Meal());
+            int mealIndex = diet.Count() - 1;
             HttpContext.Session.SetInt32("mealIndex", mealIndex);
-            HttpContext.Session.SetString("meal",JsonConvert.SerializeObject(_diet[mealIndex]));
+            HttpContext.Session.SetString("meal",JsonConvert.SerializeObject(diet[mealIndex]));
             return new RedirectToPageResult("/EditMeal");
 
 
@@ -170,9 +170,9 @@ namespace SmartDietCapstone.Pages
         public async Task<IActionResult> OnPostGoToEditMeal(int mealIndex)
         {
             await SetDietAndCalculator();
-            if (_diet.Count > mealIndex)
+            if (diet.Count > mealIndex)
             {
-                Meal meal = _diet[mealIndex];
+                Meal meal = diet[mealIndex];
 
                 string jsonMeal = JsonConvert.SerializeObject(meal);
                 HttpContext.Session.SetInt32("mealIndex", mealIndex);
@@ -191,11 +191,11 @@ namespace SmartDietCapstone.Pages
         public async Task<IActionResult> OnPostDeleteMeal(int deleteIndex)
         {
             await SetDietAndCalculator();
-            if (_diet.Count > deleteIndex)
+            if (diet.Count > deleteIndex)
             {
-                _diet.RemoveAt(deleteIndex);
+                diet.RemoveAt(deleteIndex);
 
-                HttpContext.Session.SetString("diet", JsonConvert.SerializeObject(_diet));
+                HttpContext.Session.SetString("diet", JsonConvert.SerializeObject(diet));
                 return new RedirectToPageResult("Diet");
 
             }
@@ -214,14 +214,14 @@ namespace SmartDietCapstone.Pages
             if (HttpContext.Session.Keys.Contains("mealIndex"))
             {
                 int mealIndex = (int)HttpContext.Session.GetInt32("mealIndex");
-                if (mealIndex == _diet.Count)
-                    _diet.Add(new Meal());
+                if (mealIndex == diet.Count)
+                    diet.Add(new Meal());
                    
                 
                 if (HttpContext.Session.Keys.Contains("meal"))
                 {
-                    _diet[mealIndex] = JsonConvert.DeserializeObject<Meal>(HttpContext.Session.GetString("meal"));
-                    HttpContext.Session.SetString("diet", JsonConvert.SerializeObject(_diet));
+                    diet[mealIndex] = JsonConvert.DeserializeObject<Meal>(HttpContext.Session.GetString("meal"));
+                    HttpContext.Session.SetString("diet", JsonConvert.SerializeObject(diet));
                     HttpContext.Session.Remove("meal");
                    
                 }

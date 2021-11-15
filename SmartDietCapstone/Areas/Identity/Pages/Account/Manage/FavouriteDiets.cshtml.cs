@@ -25,6 +25,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
         public List<double> dietCarbs;
         public List<double> dietFat;
         public List<string> dietIds;
+        public List<string> dietNames;
         public FavouriteDietsModel(UserManager<SmartDietCapstoneUser> userManager,
             SignInManager<SmartDietCapstoneUser> signInManager,
             IConfiguration configuration)
@@ -38,6 +39,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
             dietCarbs = new List<double>();
             dietFat = new List<double>();
             dietIds = new List<string>();
+            dietNames = new List<string>();
         }
         public async Task<IActionResult> OnGetAsync()
         {
@@ -64,16 +66,21 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
             {
                 string jsonDiet = HttpContext.Session.GetString("favouriteDiet");
 
+                string dietName = "";
+                if (TempData.ContainsKey("dietName"))
+                {
+                    dietName = TempData["dietName"] as string;
+                }
                 string connectionString = _configuration.GetConnectionString("SmartDietCapstoneContextConnection");
                 var user = await _userManager.GetUserAsync(User);
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string updateQuery = "INSERT INTO Diet (UserId, SerializedDiet) VALUES(@id, @diet);";
+                    string updateQuery = "INSERT INTO Diet (UserId, SerializedDiet, Name) VALUES(@id, @diet, @name);";
                     SqlCommand command = new SqlCommand(updateQuery, conn);
 
                     command.Parameters.AddWithValue("@id", user.Id);
                     command.Parameters.AddWithValue("@diet", jsonDiet);
-
+                    command.Parameters.AddWithValue("@name", dietName);
                     try
                     {
                         await conn.OpenAsync();
@@ -145,7 +152,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
             string connectionString = _configuration.GetConnectionString("SmartDietCapstoneContextConnection");
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT DietId, SerializedDiet from Diet where UserId = @id;";
+                string query = "SELECT DietId, SerializedDiet, Name from Diet where UserId = @id;";
                 SqlCommand command = new SqlCommand(query, conn);
                 var user = await _userManager.GetUserAsync(User);
                 command.Parameters.AddWithValue("@id", user.Id);
@@ -158,6 +165,7 @@ namespace SmartDietCapstone.Areas.Identity.Pages.Account.Manage
                     {
                         dietIds.Add(reader.GetString(0)); // Saves GUID of diet to string for deletion
                         favouriteDiets.Add(JsonConvert.DeserializeObject<List<Meal>>(reader.GetString(1)));
+                        dietNames.Add(reader.GetString(2));
                     }
 
                     if (favouriteDiets != null)

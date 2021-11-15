@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 using SmartDietCapstone.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace SmartDietCapstone.Pages
 {
@@ -31,6 +32,11 @@ namespace SmartDietCapstone.Pages
         public double recommendedCarbs;
         public double dietFat;
         public double recommendedFat;
+
+
+        [BindProperty]
+        [Required(ErrorMessage = "Please enter a name for your diet")]
+        public string DietName { get; set; }
         private readonly UserManager<SmartDietCapstoneUser> _userManager;
 
         public DietModel(UserManager<SmartDietCapstoneUser> userManager)
@@ -123,13 +129,14 @@ namespace SmartDietCapstone.Pages
         /// Saves diet to database as favourite diet if user is logged in
         /// </summary>
         /// <returns>Favourite diets page</returns>
-        public async Task<IActionResult> OnPostSaveDiet()
+        public async Task<IActionResult> OnPostSaveDiet(string DietName)
         {
             await SetDietAndCalculator();
-            if (_diet.Count > 0)
+            
+            if (_diet.Count > 0 && ModelState.IsValid)
             {
                 HttpContext.Session.SetString("favouriteDiet", HttpContext.Session.GetString("diet"));
-
+                TempData["dietName"] = DietName;
                 return new RedirectToPageResult("/Account/Manage/FavouriteDiets", "SaveDiet", new { area = "Identity" });
             }
 

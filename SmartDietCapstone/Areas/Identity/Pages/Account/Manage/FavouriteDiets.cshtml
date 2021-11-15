@@ -11,6 +11,9 @@
             <thead>
                 <tr>
                     <th>
+                        Name
+                    </th>
+                    <th>
                         Calories
                     </th>
                     <th>
@@ -34,6 +37,7 @@
                 @for (int i = 0; i < Model.favouriteDiets.Count; i++)
                 {
                 <tr>
+                    <td>@Model.dietNames[i]</td>
                     <td>@Model.dietCalories[i] calories</td>
                     <td>@Model.dietProtein[i] grams</td>
                     <td>@Model.dietCarbs[i] grams</td>

@@ -15,7 +15,7 @@
     }
     else
     {
-
+        <p class="text-danger text-center">@Html.ValidationMessageFor(m => m.DietName)</p>
         <div class="row">
             <div class="col-md">
                 <h3>User Nutrient Info</h3>
@@ -131,19 +131,25 @@
         <div class="row">
             <div class="col">
                 <form method="post" asp-page-handler="SaveDiet">
-                    <input type="hidden"  name="jsonDiet" />
-                    <button type="submit" class="btn btn-primary" value="Submit">Save Diet</button>
+                    <input type="hidden" name="jsonDiet" />
+                    <div class="input-group-prepend">
+                        @Html.TextBoxFor(m => m.DietName, new { placeholder = "Diet Name", @class = "form-control" })
+                        <button type="submit" class="btn btn-primary" value="Submit">Save</button>
+
+                    </div>
+
+
                 </form>
             </div>
             <div class="col">
                 <form method="post" asp-page-handler="AddMeal">
-                    <input type="hidden"  name="jsonDiet" />
+                    <input type="hidden" name="jsonDiet" />
                     <button type="submit" class="btn btn-success" value="Submit">Add Meal</button>
                 </form>
 
             </div>
         </div>
-        
+
 
     }
 

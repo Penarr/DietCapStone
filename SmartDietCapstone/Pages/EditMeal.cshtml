@@ -311,11 +311,11 @@ else
 
                     console.log($("#mealLength").val());
                     changeFoodMacros();
-                    foods[currentIndex].servingSize = $("#servingSizeInput").val();
-                    foods[currentIndex].cals = $("#calsInput").val();
-                    foods[currentIndex].protein = $("#proteinInput").val();
-                    foods[currentIndex].carbs = $("#carbsInput").val();
-                    foods[currentIndex].fat = $("#fatInput").val();
+                    foods[currentIndex].servingSize = Math.round($("#servingSizeInput").val(),2);
+                    foods[currentIndex].cals = Math.round($("#calsInput").val(),2);
+                    foods[currentIndex].protein = Math.round($("#proteinInput").val(),2);
+                    foods[currentIndex].carbs = Math.round($("#carbsInput").val(),2);
+                    foods[currentIndex].fat = Math.round($("#fatInput").val(),2);
 
                     repopulateCurrentMeal();
                 }

@@ -58,11 +58,11 @@ namespace SmartDietCapstone
         {
             double calories = 2000;
 
-            if (gender == "male") // male equation
+            if (gender == "male") // male equation using metric
                 calories = 10 * weight + 6.25 * height - 5 * age + 5;
 
 
-            else if (gender == "female") // female equation
+            else if (gender == "female") // female equation using metric
                 calories =   10 * weight + 6.25 * height - 5 * age - 161;
 
             switch (activityLevel) // Increases calorie count based on activity level
